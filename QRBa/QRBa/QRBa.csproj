@@ -44,11 +44,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gma.QrCodeNet.Encoding.Net45">
+      <HintPath>..\Libs\QrCode.Net 0.4\Gma.QrCodeNet.Encoding.Net45.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\MySQLConnector.NET6.9v4.5\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.9.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\MySQLConnector.NET6.9v4.5\MySql.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -102,6 +113,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Thought.vCards">
+      <HintPath>..\Libs\vCard\Thought.vCards.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -120,11 +134,22 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DataAccess\AccountRepoImpl.cs" />
+    <Compile Include="DataAccess\DataAccessor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Alert.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Constants.cs" />
+    <Compile Include="Util\CookieHelper.cs" />
+    <Compile Include="Util\CryptoHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -161,10 +186,14 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Alerts.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -173,6 +202,16 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QRBa.Domain\QRBa.Domain.csproj">
+      <Project>{93362f6d-bc81-4dd9-8bdd-fd3db7e606b1}</Project>
+      <Name>QRBa.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QRBa.Interface\QRBa.Interface.csproj">
+      <Project>{ffcaae26-edc5-450d-bffc-4144b18fdb49}</Project>
+      <Name>QRBa.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

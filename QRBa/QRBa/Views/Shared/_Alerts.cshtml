@@ -1,0 +1,23 @@
+﻿
+@{
+    var alerts = TempData.ContainsKey(QRBa.Models.Alert.TempDataKey)
+                ? (List<QRBa.Models.Alert>)TempData[QRBa.Models.Alert.TempDataKey]
+                : new List<QRBa.Models.Alert>();
+
+    if (alerts.Any())
+    {
+        <hr />
+    }
+
+    foreach (var alert in alerts)
+    {
+        var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+        <div class="alert alert-@alert.AlertStyle @dismissableClass">
+            @if (alert.Dismissable)
+            {
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            }
+            @Html.Raw(alert.Message)
+        </div>
+    }
+}

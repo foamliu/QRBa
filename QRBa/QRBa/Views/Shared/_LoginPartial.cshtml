@@ -1,0 +1,17 @@
+﻿
+@if (Request.IsAuthenticated)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink(User.Identity.Name, "Manage", "Account")
+        </li>
+        <li>@Html.ActionLink("登出", "Logout", "Account")</li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("注册", "Register", "Account")</li>
+        <li>@Html.ActionLink("登录", "Login", "Account")</li>
+    </ul>
+}
