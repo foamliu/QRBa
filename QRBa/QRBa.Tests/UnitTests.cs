@@ -21,8 +21,7 @@ namespace QRBa.Tests
         {
             Random rand = new Random();
             int adId = rand.Next();
-            long accountId = rand.Next();
-            var url = UrlHelper.GetUrl(adId, accountId);
+            var url = UrlHelper.GetUrl(adId);
             byte[] data;
             const int count = 5;
 

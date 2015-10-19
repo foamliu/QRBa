@@ -14,9 +14,9 @@ namespace QRBa.Util
             "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
             "v", "w", "x", "y", "z",  };
 
-        public static string GetUrl(int adId, long accountId)
+        public static string GetUrl(int adId)
         {
-            return string.Format(Constants.BaseUrl + "/{0}/{1}", adId, accountId);
+            return string.Format("{0}{1}", Constants.BaseUrl, Code62Encode(adId));
         }
 
         public static string Code62Encode(int input)
