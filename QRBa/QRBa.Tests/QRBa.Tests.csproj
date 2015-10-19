@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gma.QrCodeNet.Encoding.Net45">
+      <HintPath>..\Libs\QrCode.Net 0.4\Gma.QrCodeNet.Encoding.Net45.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -40,6 +43,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -80,10 +84,17 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Thought.vCards">
+      <HintPath>..\Libs\vCard\Thought.vCards.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing">
+      <HintPath>..\Libs\ZXing.Net.0.14.0.0\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="UnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -92,6 +103,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QRBa.Domain\QRBa.Domain.csproj">
+      <Project>{93362f6d-bc81-4dd9-8bdd-fd3db7e606b1}</Project>
+      <Name>QRBa.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QRBa.Interface\QRBa.Interface.csproj">
+      <Project>{ffcaae26-edc5-450d-bffc-4144b18fdb49}</Project>
+      <Name>QRBa.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QRBa\QRBa.csproj">
       <Project>{FE79F74F-8276-423B-97CC-409658554368}</Project>
       <Name>QRBa</Name>

@@ -124,6 +124,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="zxing">
+      <HintPath>..\Libs\ZXing.Net.0.14.0.0\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -150,6 +153,8 @@
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\CookieHelper.cs" />
     <Compile Include="Util\CryptoHelper.cs" />
+    <Compile Include="Util\QrCodeHelper.cs" />
+    <Compile Include="Util\UrlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -172,7 +177,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

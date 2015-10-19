@@ -9,10 +9,10 @@ using QRBa.Controllers;
 
 namespace QRBa.Tests.Controllers
 {
-    [TestClass]
+    //[TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
+        //[TestMethod]
         public void Index()
         {
             // Arrange
@@ -25,7 +25,7 @@ namespace QRBa.Tests.Controllers
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void About()
         {
             // Arrange
@@ -38,7 +38,7 @@ namespace QRBa.Tests.Controllers
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void Contact()
         {
             // Arrange

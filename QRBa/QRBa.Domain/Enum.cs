@@ -26,4 +26,18 @@ namespace QRBa.Domain
         [EnumMember]
         Closed = 2
     }
+
+    [DataContract]
+    public enum EventType : byte
+    {
+        [EnumMember]
+        Click = 0,
+    }
+
+    public enum ColorType : byte
+    {
+        None = 0,
+        Light = 1,
+        Dark = 2
+    }
 }
