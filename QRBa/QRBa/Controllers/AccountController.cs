@@ -31,7 +31,7 @@ namespace QRBa.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -54,7 +54,6 @@ namespace QRBa.Controllers
                 CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), model.RememberMe);
 
                 return RedirectToLocal(model.ReturnUrl);
-                //return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -73,7 +72,7 @@ namespace QRBa.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -92,7 +91,7 @@ namespace QRBa.Controllers
                 DataAccessor.AccountRepository.AddAccoutIdentity(account.Id, (byte)IdentityType.QRBaId, identity.MemberName);
 
                 Success("注册成功!", true);
-                return View("Info");
+                return View();
             }
             return View(model);
         }

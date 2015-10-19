@@ -83,9 +83,9 @@ namespace QRBa.DataAccess
                                                                                 },
                                                                                 {"rangeLength", size},
                                                                             });
-            if (result.Tables.Count > 0 || result.Tables[0].Rows.Count > 0)
+            if (result.Tables.Count > 1 || result.Tables[1].Rows.Count > 0)
             {
-                var row = result.Tables[0].Rows[0];
+                var row = result.Tables[1].Rows[0];
                 return new IdGenerator.IdRange(
                     row.GetInt64Field("StartId"),
                     row.GetInt64Field("EndId"),

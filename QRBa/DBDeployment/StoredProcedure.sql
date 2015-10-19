@@ -20,12 +20,11 @@ BEGIN
         name,
         email,
         statusId,
-        customerTypeId,
         UTC_TIMESTAMP(),
         CURRENT_USER()
     );
 
-    SELECT * FROM Account WHERE Id = @id;
+    SELECT * FROM Account WHERE Id = id;
 
 END //
 DELIMITER ;
@@ -178,7 +177,7 @@ BEGIN
     );
     
     SELECT @maxDispatched + 1 AS StartId,
-           @maxDispatched + @rangeLength AS EndId;
+           @maxDispatched + rangeLength AS EndId;
 
 END //
 DELIMITER ;
