@@ -16,7 +16,7 @@ namespace QRBa.Util
 
         public static string GetUrl(int adId)
         {
-            return string.Format("{0}{1}", Constants.BaseUrl, Code62Encode(adId));
+            return string.Format("{0}i/{1}", Constants.BaseUrl, Code62Encode(adId));
         }
 
         public static string Code62Encode(int input)

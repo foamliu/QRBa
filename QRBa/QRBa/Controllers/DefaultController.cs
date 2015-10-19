@@ -8,6 +8,7 @@ using System.Web.Http;
 
 namespace QRBa.Controllers
 {
+    [RoutePrefix("i")]
     public class DefaultController : ApiController
     {
         [HttpGet]

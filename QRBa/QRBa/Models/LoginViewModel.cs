@@ -10,7 +10,8 @@ namespace QRBa.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "用户名")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "邮箱")]
         public string MemberName { get; set; }
 
         [Required]
