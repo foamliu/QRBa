@@ -13,5 +13,11 @@ namespace QRBa.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Create()
+        {
+            return View();
+        }
     }
 }

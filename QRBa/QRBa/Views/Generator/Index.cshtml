@@ -6,5 +6,38 @@
 
 <h2>合成二维码</h2>
 
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#url" data-toggle="tab">超链接（URL）</a></li>
+    <li><a href="#vcard" data-toggle="tab">名片</a></li>
+    <li><a href="#heart" data-toggle="tab">心里话</a></li>
+</ul>
 
+@using (Html.BeginForm("Create", "Generator", FormMethod.Post))
+{
+    <div class="form-group">
+        <div class="tab-content" style="height:100px;">
+            <div class="tab-pane active" id="url">
+                <div class="form-group">
+                    <p>
+                        <input class="form-control" name="url"
+                               type="url"
+                               placeholder="URL"
+                               data-fv-uri-message="嗯 网址不大对(⊙v⊙)" />
+                    </p>
+                </div>
+            </div>
+            <div class="tab-pane" id="vcard">
+                名片
+            </div>
+            <div class="tab-pane" id="heart">
+                心里话
+            </div>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="合成二维码" class="btn btn-primary" />
+        </div>
+    </div>
+}
