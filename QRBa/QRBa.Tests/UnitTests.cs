@@ -139,28 +139,89 @@ namespace QRBa.Tests
             // A vCard supports any number of email addresses.
 
 
-            card.EmailAddresses.Add(
-                new vCardEmailAddress("浦驰路 1809弄 104号 701"));
+            //card.EmailAddresses.Add(
+            //    new vCardEmailAddress("浦驰路 1809弄 104号 701"));
 
 
             // ---------------------------------------------------------------
             // Nicknames
             // ---------------------------------------------------------------
 
-            string[] nicklist = new string[] { "泡沫刘" };
-            foreach (string nick in nicklist)
+            //string[] nicklist = new string[] { "泡沫刘" };
+            //foreach (string nick in nicklist)
+            //{
+            //    if (nick.Length > 0)
+            //        card.Nicknames.Add(nick);
+            //}
+
+
+            // ---------------------------------------------------------------
+            // Notes
+            // ---------------------------------------------------------------
+            // The vCard specification allows for multiple notes, although
+            // most applications seem to support a maximum of one note.
+
+            //if (Note.Text.Length > 0)
+            //{
+            //    card.Notes.Add(new vCardNote(Note.Text));
+            //}
+
+
+            // ---------------------------------------------------------------
+            // Phones
+            // ---------------------------------------------------------------
+            //
+            // A vCard supports any number of telephones.  Each telephone can
+            // have a different type (such as a video phone or a fax) and a
+            // purpose (e.g. a home number or a work number).
+
+            //if (!string.IsNullOrEmpty(WorkPhone.Text))
+            //{
+            //    card.Phones.Add(
+            //        new vCardPhone(WorkPhone.Text, vCardPhoneTypes.WorkVoice));
+            //}
+
+            card.Phones.Add(
+                new vCardPhone("13681765654", vCardPhoneTypes.Cellular));
+
+
+            //if (!string.IsNullOrEmpty(WorkFax.Text))
+            //{
+            //    card.Phones.Add(
+            //        new vCardPhone(WorkFax.Text, vCardPhoneTypes.WorkFax));
+            //}
+
+
+            // ---------------------------------------------------------------
+            // Web Sites
+            // ---------------------------------------------------------------
+
+            //if (WorkWebSite.Text.Length > 0)
+            //{
+            //    card.Websites.Add(
+            //        new vCardWebsite(WorkWebSite.Text, vCardWebsiteTypes.Work));
+            //}
+
+            var writer = new vCardStandardWriter();
+            writer.EmbedInternetImages = false;
+            writer.EmbedLocalImages = true;
+            writer.Options = vCardStandardWriterOptions.IgnoreCommas;
+
+            StringBuilder sb = new StringBuilder();
+            using (var textWriter = new StringWriter(sb))
             {
-                if (nick.Length > 0)
-                    card.Nicknames.Add(nick);
+                writer.Write(card, textWriter);
             }
 
-            //var writer = new vCardStandardWriter();
-            //writer.EmbedInternetImages = false;
-            //writer.EmbedLocalImages = true;
-            //writer.Options = vCardStandardWriterOptions.IgnoreCommas;
-
-            //var textWriter = new StreamWriter(writeStream);
-            //writer.Write(card, textWriter);
+            var expected = @"BEGIN:VCARD
+N:刘;杨;;;
+FN:刘杨
+ORG:微软
+TEL;CELL:13681765654
+TITLE:高级研发经理
+END:VCARD
+";
+            Assert.AreEqual(expected, sb.ToString());
         }
     }
 }
