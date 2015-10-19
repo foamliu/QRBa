@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 
 namespace QRBa.Controllers
 {
-    public class DefaultController : Controller
+    public class DefaultController : ApiController
     {
-        // GET: Default
-        public ActionResult Index()
-        {
-            return View();
-        }
     }
 }
