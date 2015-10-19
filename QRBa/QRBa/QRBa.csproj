@@ -224,6 +224,8 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Generator\Index.cshtml" />
     <Content Include="Views\Generator\Create.cshtml" />
+    <Content Include="Views\Generator\Select.cshtml" />
+    <Content Include="Views\Generator\Place.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

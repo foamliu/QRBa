@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "选图片";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>选图片</h2>
+
+@using (Html.BeginForm("Select", "Generator", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <input class="form-control" type="file" name="file" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="合成" class="btn btn-primary" />
+    </div>
+}
