@@ -14,6 +14,7 @@ namespace QRBa.DataAccess
     public partial class DataAccessor
     {
         public static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["QRBaDB"].ConnectionString;
+        private readonly IdGenerator accountIdGen;
 
         #region singleton instance
 
@@ -33,7 +34,7 @@ namespace QRBa.DataAccess
 
         private DataAccessor()
         {
-
+            accountIdGen = new IdGenerator(current => GetNextAccountIdRange(128));
         }
 
         #endregion
@@ -70,6 +71,71 @@ namespace QRBa.DataAccess
             }
 
             return ds;
+        }
+
+        private IdGenerator.IdRange GetNextAccountIdRange(int size)
+        {
+            var result = QueryStoreProcedure("GetNextAccountIdRange", new Dictionary<string, object>
+                                                                            {
+                                                                                {
+                                                                                    "requester",
+                                                                                    Environment.MachineName
+                                                                                },
+                                                                                {"rangeLength", size},
+                                                                            });
+            if (result.Tables.Count > 0 || result.Tables[0].Rows.Count > 0)
+            {
+                var row = result.Tables[0].Rows[0];
+                return new IdGenerator.IdRange(
+                    row.GetInt64Field("StartId"),
+                    row.GetInt64Field("EndId"),
+                    row.GetInt64Field("StartId"));
+            }
+
+            return null;
+        }
+
+        public class IdGenerator
+        {
+            private readonly Func<IdRange, IdRange> _nextBatchFunc;
+            private IdRange _currentRange;
+            //TODO: aync retrieve next batch?
+            private readonly object _lock = new object();
+
+            public class IdRange
+            {
+                public long Start { get; set; }
+                public long End { get; set; }
+                public long Pos { get; set; }
+
+                public IdRange(long start, long end, long pos)
+                {
+                    this.Start = start;
+                    this.End = end;
+                    this.Pos = pos;
+                }
+            }
+
+            public IdGenerator(Func<IdRange, IdRange> nextBatchFunc)
+            {
+                _nextBatchFunc = nextBatchFunc;
+                _currentRange = null;
+            }
+
+            public long NextId
+            {
+                get
+                {
+                    lock (_lock)
+                    {
+                        if (_currentRange == null || _currentRange.Pos >= _currentRange.End)
+                        {
+                            _currentRange = _nextBatchFunc(_currentRange);
+                        }
+                        return _currentRange.Pos++;
+                    }
+                }
+            }
         }
     }
 }

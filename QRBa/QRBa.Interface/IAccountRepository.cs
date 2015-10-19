@@ -11,7 +11,7 @@ namespace QRBa.Interface
     {
         Identity AddIdentity(Identity newIdentity);
 
-        void AddAccoutIdentityMapping(long accountId, byte identityType, string identityValue);
+        void AddAccoutIdentity(int accountId, byte identityType, string identityValue);
 
         bool CheckIdentity(Identity identity);
 

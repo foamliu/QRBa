@@ -1,6 +1,6 @@
-use qrbadb;
+use QRBaDB;
 
-
+DROP TABLE IF EXISTS QRBaDB.Identity;
 CREATE TABLE Identity
 (
     MemberName NVARCHAR(64) NOT NULL PRIMARY KEY,
@@ -11,9 +11,10 @@ CREATE TABLE Identity
     UpdatedBy NVARCHAR(64) NULL
 );
 
+DROP TABLE IF EXISTS QRBaDB.Account;
 CREATE TABLE Account
 (
-    Id BIGINT NOT NULL PRIMARY KEY,
+    Id INT NOT NULL PRIMARY KEY,
     Name NVARCHAR(256) NOT NULL,
     Email VARCHAR(128) NOT NULL,
     StatusId TINYINT NOT NULL,
@@ -23,6 +24,7 @@ CREATE TABLE Account
     UpdatedBy NVARCHAR(64) NULL
 );
 
+DROP TABLE IF EXISTS QRBaDB.AccountIdAlloc;
 CREATE TABLE AccountIdAlloc
 (
     StartId bigint NOT NULL,
@@ -37,6 +39,7 @@ CREATE TABLE AccountIdAlloc
     )
 );
 
+DROP TABLE IF EXISTS QRBaDB.AccountIdentity;
 CREATE TABLE AccountIdentity
 (
     AccountId BIGINT NOT NULL,
@@ -47,6 +50,7 @@ CREATE TABLE AccountIdentity
     PRIMARY KEY (AccountId, IdentityTypeId, IdentityValue)
 );
 
+DROP TABLE IF EXISTS QRBaDB.Event;
 CREATE TABLE Event
 (
     AccountId BIGINT NOT NULL,

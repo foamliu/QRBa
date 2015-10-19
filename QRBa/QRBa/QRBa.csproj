@@ -156,7 +156,9 @@
     <Compile Include="Controllers\GeneratorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataAccess\AccountRepoImpl.cs" />
+    <Compile Include="DataAccess\ConvertHelper.cs" />
     <Compile Include="DataAccess\DataAccessor.cs" />
+    <Compile Include="DataAccess\Extentions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

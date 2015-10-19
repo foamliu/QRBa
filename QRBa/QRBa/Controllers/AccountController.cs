@@ -89,7 +89,7 @@ namespace QRBa.Controllers
                     {
 
                     });
-                DataAccessor.AccountRepository.AddAccoutIdentityMapping(account.Id, (byte)IdentityType.QRBaId, identity.MemberName);
+                DataAccessor.AccountRepository.AddAccoutIdentity(account.Id, (byte)IdentityType.QRBaId, identity.MemberName);
 
                 Success("注册成功!", true);
                 return View("Info");
