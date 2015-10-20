@@ -14,7 +14,7 @@ namespace QRBa.DataAccess
     public partial class DataAccessor
     {
         public static readonly string ConnectionString = ConfigurationManager.ConnectionStrings["QRBaDB"].ConnectionString;
-        private readonly IdGenerator accountIdGen;
+        private readonly IdGenerator idGen;
 
         #region singleton instance
 
@@ -34,7 +34,7 @@ namespace QRBa.DataAccess
 
         private DataAccessor()
         {
-            accountIdGen = new IdGenerator(current => GetNextAccountIdRange(128));
+            idGen = new IdGenerator(current => GetNextAccountIdRange(128));
         }
 
         #endregion
@@ -47,6 +47,14 @@ namespace QRBa.DataAccess
         {
             get { return _accountRepositoryOverrided ?? Instance; }
             set { _accountRepositoryOverrided = value; }
+        }
+
+        private static ICodeRepository _codeRepositoryOverrided;
+
+        public static ICodeRepository CodeRepository
+        {
+            get { return _codeRepositoryOverrided ?? Instance; }
+            set { _codeRepositoryOverrided = value; }
         }
 
         #endregion

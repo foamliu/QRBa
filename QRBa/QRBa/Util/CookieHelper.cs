@@ -24,7 +24,8 @@ namespace QRBa.Util
 
         public static string GetCookie(HttpRequestBase request, string name)
         {
-            return request.Cookies[name].Value;
+            var cookie = request.Cookies[name];
+            return cookie == null? null : cookie.Value;
         }
     }
 }

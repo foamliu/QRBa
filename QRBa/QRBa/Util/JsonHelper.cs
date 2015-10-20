@@ -17,21 +17,24 @@ namespace QRBa.Util
                 var p = (UrlPayload)payload;
                 return JsonConvert.SerializeObject(p);
             }
-            throw new NotSupportedException();
+            return string.Empty;
         }
 
         public static Payload Deserialize(string json, CodeType type)
         {
-            switch (type)
+            if (json != null)
             {
-                case CodeType.Url:
-                    return JsonConvert.DeserializeObject<UrlPayload>(json);
-                case CodeType.vCard:
-                    return JsonConvert.DeserializeObject<vCardPayload>(json);
-                default:
-                    break;
+                switch (type)
+                {
+                    case CodeType.Url:
+                        return JsonConvert.DeserializeObject<UrlPayload>(json);
+                    case CodeType.vCard:
+                        return JsonConvert.DeserializeObject<vCardPayload>(json);
+                    default:
+                        throw new NotSupportedException();
+                }
             }
-            throw new NotSupportedException();
+            return null;
         }
 
     }

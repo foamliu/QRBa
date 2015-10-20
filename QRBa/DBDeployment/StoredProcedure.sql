@@ -218,11 +218,11 @@ BEGIN
 
     INSERT INTO Code
     (
-        AuthorId, CodeId, CodeTypeId, CodeRectangle, BackgroundImage, BackgroundContentType, Payload, InsertedDatetime, InsertedBy
+        AccountId, CodeId, CodeTypeId, CodeRectangle, BackgroundImage, BackgroundContentType, Payload, InsertedDatetime, InsertedBy
     )
     VALUES
     (
-        authorId,
+        accountId,
         @nextCodeId,
         codeTypeId,
         codeRectangle,
@@ -260,7 +260,7 @@ DROP PROCEDURE IF EXISTS QRBaDB.UpdateCode;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.UpdateCode
 (
-    authorId INT,
+    accountId INT,
     codeId INT,
     codeTypeId TINYINT,
     codeRectangle VARCHAR(32),    
@@ -269,6 +269,10 @@ CREATE PROCEDURE QRBaDB.UpdateCode
     payload NVARCHAR(2048)
 )
 BEGIN
+
+	IF (payload = '') THEN 
+		SET payload = NULL;
+	END IF;
 
     UPDATE QRBaDB.Code
     SET 

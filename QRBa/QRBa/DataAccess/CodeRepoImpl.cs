@@ -23,9 +23,9 @@ namespace QRBa.DataAccess
                                                               {"backgroundContentType", newCode.BackgroundContentType},
                                                               {"payload", JsonHelper.Serialize(newCode.Payload)},
                                                           });
-            if (result.Tables[0].Rows.Count > 0)
+            if (result.Tables.Count > 1 && result.Tables[1].Rows.Count > 0)
             {
-                var code = new Code().FromRow(result.Tables[0].Rows[0]);
+                var code = new Code().FromRow(result.Tables[1].Rows[0]);
                 return code;
             }
             return null;

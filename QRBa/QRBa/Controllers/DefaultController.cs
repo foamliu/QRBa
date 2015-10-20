@@ -15,7 +15,9 @@ namespace QRBa.Controllers
         [Route("{input}")]
         public HttpResponseMessage OnEvent(string input)
         {
-            int id = UrlHelper.Code62Decode(input);
+            int accountId, codeId;
+
+            UrlHelper.Code62Decode(input, out accountId, out codeId);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

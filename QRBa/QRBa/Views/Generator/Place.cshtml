@@ -1,4 +1,4 @@
-﻿
+﻿@model QRBa.Domain.Code
 @{
     ViewBag.Title = "放置";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,9 +8,162 @@
 
 @using (Html.BeginForm("Place", "Generator", FormMethod.Post))
 {
+    @Html.HiddenFor(m => m.AccountId)
+    @Html.HiddenFor(m => m.CodeId)
+    @Html.HiddenFor(m => m.Type)
+
+    @Html.HiddenFor(x => x)
+    @Html.HiddenFor(y => y)
+    @Html.HiddenFor(width => width)
+    @Html.HiddenFor(height => height)
+
+    <div class="form-horizontal">
+        <hr />
+        <p>请把二维码拖动到您文案中恰当的位置，并调整其尺寸：</p>
+        <p></p>
+        <div id="container" style="background: url('@Model.GetImageString()') no-repeat top left"> </div>
+        <script>
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+
+    function update(activeAnchor) {
+        var group = activeAnchor.getParent();
+
+        var topLeft = group.get('.topLeft')[0];
+        var topRight = group.get('.topRight')[0];
+        var bottomRight = group.get('.bottomRight')[0];
+        var bottomLeft = group.get('.bottomLeft')[0];
+        var image = group.get('Image')[0];
+
+        var anchorX = activeAnchor.getX();
+        var anchorY = activeAnchor.getY();
+
+        // update anchor positions
+        switch (activeAnchor.getName()) {
+            case 'topLeft':
+                topRight.setY(anchorY);
+                bottomLeft.setX(anchorX);
+                break;
+            case 'topRight':
+                topLeft.setY(anchorY);
+                bottomRight.setX(anchorX);
+                break;
+            case 'bottomRight':
+                bottomLeft.setY(anchorY);
+                topRight.setX(anchorX);
+                break;
+            case 'bottomLeft':
+                bottomRight.setY(anchorY);
+                topLeft.setX(anchorX);
+                break;
+        }
+
+        image.position(topLeft.position());
+
+        var width = topRight.getX() - topLeft.getX();
+        var height = bottomLeft.getY() - topLeft.getY();
+        if(width && height) {
+            image.width(width);
+            image.height(height);
+        }
+    }
+    function addAnchor(group, x, y, name) {
+        var stage = group.getStage();
+        var layer = group.getLayer();
+
+        var anchor = new Konva.Circle({
+            x: x,
+            y: y,
+            stroke: '#666',
+            fill: '#ddd',
+            strokeWidth: 2,
+            radius: 8,
+            name: name,
+            draggable: true,
+            dragOnTop: false
+        });
+
+        anchor.on('dragmove', function() {
+            update(this);
+            layer.draw();
+        });
+        anchor.on('mousedown touchstart', function() {
+            group.setDraggable(false);
+            this.moveToTop();
+        });
+        anchor.on('dragend', function() {
+            group.setDraggable(true);
+            layer.draw();
+        });
+        // add hover styling
+        anchor.on('mouseover', function() {
+            var layer = this.getLayer();
+            document.body.style.cursor = 'pointer';
+            this.setStrokeWidth(4);
+            layer.draw();
+        });
+        anchor.on('mouseout', function() {
+            var layer = this.getLayer();
+            document.body.style.cursor = 'default';
+            this.setStrokeWidth(2);
+            layer.draw();
+        });
+
+        group.add(anchor);
+    }
+
+    var stage = new Konva.Stage({
+        container: 'container',
+        width: width,
+        height: height
+    });
+
+    var layer = new Konva.Layer();
+    stage.add(layer);
+
+    // darth vader
+    var codeImg = new Konva.Image({
+        width: 156,
+        height: 156
+    });
+
+    var codeGroup = new Konva.Group({
+        x: 0,
+        y: 0,
+        draggable: true
+    });
+    layer.add(codeGroup);
+    codeGroup.add(codeImg);
+    addAnchor(codeGroup, 0, 0, 'topLeft');
+    addAnchor(codeGroup, 156, 0, 'topRight');
+    addAnchor(codeGroup, 156, 156, 'bottomRight');
+    addAnchor(codeGroup, 0, 156, 'bottomLeft');
+
+    var imageObj = new Image();
+    imageObj.onload = function() {
+        codeImg.image(imageObj);
+        layer.draw();
+    };
+    imageObj.src = '/Images/qr_code_squared.png';
+
+    function collect() {
+        var topLeft = codeGroup.get('.topLeft')[0];
+        var bottomRight = codeGroup.get('.bottomRight')[0];
+        var image = codeGroup.get('Image')[0];
+
+        $("#x").val(codeGroup.getX());
+        $("#y").val(codeGroup.getY());
+        $("#width").val(bottomRight.getX() - topLeft.getX());
+        $("#height").val(bottomRight.getY() - topLeft.getY());
+        return true;
+    }
+        </script>
+
+        <p><input type="submit" value="完成" class="btn btn-primary" onclick="return collect();" /></p>
+
+        <script>
 
 
-    <div class="form-group">
-        <input type="submit" value="合成" class="btn btn-primary" />
+        </script>
     </div>
 }

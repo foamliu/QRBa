@@ -12,7 +12,7 @@ namespace QRBa.DataAccess
     {
         public Account AddAccount(Account newAccount)
         {
-            long newAccountId = accountIdGen.NextId;
+            long newAccountId = idGen.NextId;
             var result = QueryStoreProcedure("AddAccount", new Dictionary<string, object>
                                                           {
                                                               {"id", newAccountId},
@@ -42,7 +42,7 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("AddIdentity", new Dictionary<string, object>
                                                           {
-                                                              {"memberName", newIdentity.MemberName},
+                                                              {"memberName", newIdentity.MemberName.ToLower()},
                                                               {"passwordHash", newIdentity.PasswordHash}
                                                           });
             if (result.Tables[0].Rows.Count > 0)
@@ -56,7 +56,7 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("GetIdentity", new Dictionary<string, object>
                                                           {
-                                                              {"memberName", identity.MemberName}
+                                                              {"memberName", identity.MemberName.ToLower()}
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {
@@ -71,7 +71,7 @@ namespace QRBa.DataAccess
             var result = QueryStoreProcedure("GetAccountByIdentity", new Dictionary<string, object>
                                                           {
                                                               {"identityTypeId", (byte)idType},
-                                                              {"identityValue", idValue},
+                                                              {"identityValue", idValue.ToLower()},
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {

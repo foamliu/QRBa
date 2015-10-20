@@ -14,18 +14,24 @@ namespace QRBa.Util
             "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u",
             "v", "w", "x", "y", "z",  };
 
-        public static string GetUrl(int adId)
+        public static string GetUrl(int accountId, int codeId)
         {
-            return string.Format("{0}i/{1}", Constants.BaseUrl, Code62Encode(adId));
+            uint u1 = (uint)codeId;
+            uint u2 = (uint)accountId;
+
+            ulong unsignedKey = (((ulong)u1) << 32) | u2;
+            long combinedId = (long)unsignedKey;
+
+            return string.Format("{0}i/{1}", Constants.BaseUrl, Code62Encode(combinedId));
         }
 
-        public static string Code62Encode(int input)
+        public static string Code62Encode(long input)
         {
-            int num = input;
+            long num = input;
             var sb = new StringBuilder();
             do
             {
-                int k = num % 62;
+                long k = num % 62;
                 sb.Append(code62[k]);
                 num = num / 62;
             }
@@ -35,15 +41,19 @@ namespace QRBa.Util
             return new string(charArray);
         }
 
-        public static int Code62Decode(string input)
+        public static void Code62Decode(string input, out int accountId, out int codeId)
         {
-            int result = 0; int pow = 1;
+            long combinedId = 0; long pow = 1;
             for (var i = input.Length - 1; i >= 0; i--)
             {
-                result += pow * IndexOf(input[i] + "");
+                combinedId += pow * IndexOf(input[i] + "");
                 pow *= 62;
             }
-            return result;
+            ulong unsignedKey = (ulong)combinedId;
+            uint lowBits = (uint)(unsignedKey & 0xffffffffUL);
+            uint highBits = (uint)(unsignedKey >> 32);
+            codeId = (int)highBits;
+            accountId = (int)lowBits;
         }
 
         private static int IndexOf(string ch)
@@ -55,5 +65,6 @@ namespace QRBa.Util
             }
             return -1;
         }
+
     }
 }

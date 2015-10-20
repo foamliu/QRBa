@@ -20,8 +20,9 @@ namespace QRBa.Tests
         public void UT_QrCodeTest()
         {
             Random rand = new Random();
-            int adId = rand.Next();
-            var url = UrlHelper.GetUrl(adId);
+            int accountId = rand.Next();
+            int codeId = rand.Next();
+            var url = UrlHelper.GetUrl(accountId, codeId);
             byte[] data;
             const int count = 5;
 
@@ -112,7 +113,6 @@ namespace QRBa.Tests
             Assert.AreEqual("1", UrlHelper.Code62Encode(1));
             Assert.AreEqual("10", UrlHelper.Code62Encode(62));
             Assert.AreEqual("2LKcb1", UrlHelper.Code62Encode(int.MaxValue));
-            Assert.AreEqual(int.MaxValue, UrlHelper.Code62Decode("2LKcb1"));
         }
 
         [TestMethod]
