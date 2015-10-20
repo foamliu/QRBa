@@ -199,3 +199,93 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS QRBaDB.AddCode;
+DELIMITER //
+CREATE PROCEDURE AddCode
+(
+    accountId INT,
+    codeTypeId TINYINT,
+    codeRectangle VARCHAR(32),
+    backgroundImage BLOB,
+    backgroundContentType VARCHAR(32),
+    payload NVARCHAR(2048)
+)
+BEGIN
+
+    SELECT @nextCodeId := IFNULL(MAX(CodeId), 0) + 1
+    FROM Code
+    WHERE AccountId = accountId;
+
+    INSERT INTO Code
+    (
+        AuthorId, CodeId, CodeTypeId, CodeRectangle, BackgroundImage, BackgroundContentType, Payload, InsertedDatetime, InsertedBy
+    )
+    VALUES
+    (
+        authorId,
+        @nextCodeId,
+        codeTypeId,
+        codeRectangle,
+        backgroundImage,
+        backgroundContentType,
+        payload,
+        UTC_TIMESTAMP(),
+        CURRENT_USER()
+    );
+
+    SELECT * FROM Code 
+    WHERE AccountId = accountId
+		AND CodeId = @nextCodeId;
+
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS QRBaDB.GetCode;
+DELIMITER //
+CREATE PROCEDURE QRBaDB.GetCode
+(
+	accountId INT,
+    codeId INT
+)
+BEGIN
+
+    SELECT * FROM Code
+    WHERE AccountId = accountId
+		AND CodeId = codeId;
+
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS QRBaDB.UpdateCode;
+DELIMITER //
+CREATE PROCEDURE QRBaDB.UpdateCode
+(
+    authorId INT,
+    codeId INT,
+    codeTypeId TINYINT,
+    codeRectangle VARCHAR(32),    
+    backgroundImage BLOB,
+    backgroundContentType VARCHAR(32),
+    payload NVARCHAR(2048)
+)
+BEGIN
+
+    UPDATE QRBaDB.Code
+    SET 
+        CodeTypeId = IFNULL(codeTypeId, CodeTypeId),
+        CodeRectangle = IFNULL(codeRectangle, CodeRectangle),
+        BackgroundImage = IFNULL(backgroundImage, BackgroundImage),
+        BackgroundContentType = IFNULL(backgroundContentType, BackgroundContentType),
+        Payload = IFNULL(payload, Payload),
+        UpdatedDatetime = UTC_TIMESTAMP(),
+        UpdatedBy = CURRENT_USER()
+    WHERE AccountId = accountId
+		AND CodeId = codeId;
+
+    SELECT * FROM QRBaDB.Code
+    WHERE AccountId = accountId
+		AND CodeId = codeId;
+
+END //
+DELIMITER ;
+

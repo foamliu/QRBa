@@ -40,4 +40,10 @@ namespace QRBa.Domain
         Light = 1,
         Dark = 2
     }
+
+    public enum CodeType : byte
+    {
+        Url = 0,
+        vCard = 1,
+    }
 }

@@ -156,6 +156,7 @@
     <Compile Include="Controllers\GeneratorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataAccess\AccountRepoImpl.cs" />
+    <Compile Include="DataAccess\CodeRepoImpl.cs" />
     <Compile Include="DataAccess\ConvertHelper.cs" />
     <Compile Include="DataAccess\DataAccessor.cs" />
     <Compile Include="DataAccess\Extentions.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\CookieHelper.cs" />
     <Compile Include="Util\CryptoHelper.cs" />
+    <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\QrCodeHelper.cs" />
     <Compile Include="Util\UrlHelper.cs" />
   </ItemGroup>

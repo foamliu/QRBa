@@ -50,29 +50,31 @@ CREATE TABLE AccountIdentity
     PRIMARY KEY (AccountId, IdentityTypeId, IdentityValue)
 );
 
-DROP TABLE IF EXISTS QRBaDB.Advertisement;
-CREATE TABLE Advertisement
+DROP TABLE IF EXISTS QRBaDB.Code;
+CREATE TABLE Code
 (
-    Id INT NOT NULL PRIMARY KEY,
-    AuthorId BIGINT NOT NULL,
-    Image BLOB NULL,
-    ContentType VARCHAR(256) NULL,        
-    StatusId TINYINT NOT NULL,
-    TargetingUrl VARCHAR(1024) NOT NULL,    
-    PropertyBag NVARCHAR(2048) NULL,
+    AccountId INT NOT NULL,
+    CodeId INT NOT NULL,    
+    CodeTypeId TINYINT NOT NULL,
+    CodeRectangle VARCHAR(32) NULL,
+    BackgroundImage BLOB NULL,
+    BackgroundContentType VARCHAR(32) NULL,
+    Payload NVARCHAR(2048) NULL,
     InsertedDatetime DATETIME NOT NULL,
     InsertedBy NVARCHAR(64) NOT NULL,
     UpdatedDatetime DATETIME NULL,
-    UpdatedBy NVARCHAR(64) NULL
+    UpdatedBy NVARCHAR(64) NULL,
+    PRIMARY KEY (AccountId, CodeId)
 );
 
 DROP TABLE IF EXISTS QRBaDB.Event;
 CREATE TABLE Event
 (
-    AdvertisementId INT NOT NULL,
+    AccountId INT NOT NULL,
+    CodeId INT NOT NULL,  
     EventTypeId TINYINT NOT NULL,
     Payload NVARCHAR(2048) NULL,
     InsertedDatetime DATETIME NOT NULL,
     InsertedBy NVARCHAR(64) NOT NULL,
-    PRIMARY KEY(AdvertisementId, EventTypeId, InsertedDatetime)
+    PRIMARY KEY(AccountId, CodeId, EventTypeId, InsertedDatetime)
 );
