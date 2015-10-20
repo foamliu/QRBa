@@ -1,15 +1,15 @@
 ﻿@{
-    ViewBag.Title = "合成";
+    ViewBag.Title = "合成二维码";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>合成二维码</h2>
+<h2>@ViewBag.Title</h2>
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#url" data-toggle="tab">URL</a></li>
     @*<li><a href="#vcard" data-toggle="tab">名片</a></li>
     <li><a href="#heart" data-toggle="tab">心里话</a></li>*@
 </ul>
-@using (Html.BeginForm("Select", "Generator", FormMethod.Post))
+@using (Html.BeginForm("Create", "Generator", FormMethod.Post))
 {
     <div class="tab-content">
         <div class="tab-pane active" id="url">

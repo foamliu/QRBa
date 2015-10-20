@@ -15,23 +15,22 @@ namespace QRBa.Controllers
         }
 
         [HttpPost]
+        public ActionResult Create()
+        {
+            return View("Select");
+        }
+
+        [HttpPost]
         public ActionResult Select()
         {
-            return View();
+            return View("Place");
         }
 
         [HttpPost]
         public ActionResult Place()
         {
-            return View();
+            return View("Dashboard");
         }
-
-        [HttpPost]
-        public ActionResult Create()
-        {
-            return View();
-        }
-
 
     }
 }

@@ -1,8 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Place";
+    ViewBag.Title = "放置";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Place</h2>
+<h2>@ViewBag.Title</h2>
 
+@using (Html.BeginForm("Place", "Generator", FormMethod.Post))
+{
+
+
+    <div class="form-group">
+        <input type="submit" value="合成" class="btn btn-primary" />
+    </div>
+}
