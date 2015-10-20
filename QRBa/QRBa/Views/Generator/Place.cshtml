@@ -12,10 +12,10 @@
     @Html.HiddenFor(m => m.CodeId)
     @Html.HiddenFor(m => m.Type)
 
-    @Html.HiddenFor(x => x)
-    @Html.HiddenFor(y => y)
-    @Html.HiddenFor(width => width)
-    @Html.HiddenFor(height => height)
+    <input type="hidden" name="x" id="x" value="0" />
+    <input type="hidden" name="y" id="y" value="0" />
+    <input type="hidden" name="width" id="width" value="0" />
+    <input type="hidden" name="height" id="height" value="0" />
 
     <div class="form-horizontal">
         <hr />
@@ -144,7 +144,7 @@
         codeImg.image(imageObj);
         layer.draw();
     };
-    imageObj.src = '/Images/qr_code_squared.png';
+    imageObj.src = '/Images/code_squared.png';
 
     function collect() {
         var topLeft = codeGroup.get('.topLeft')[0];

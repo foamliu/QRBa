@@ -206,7 +206,7 @@ CREATE PROCEDURE AddCode
     accountId INT,
     codeTypeId TINYINT,
     codeRectangle VARCHAR(32),
-    backgroundImage BLOB,
+    #backgroundImage BLOB,
     backgroundContentType VARCHAR(32),
     payload NVARCHAR(2048)
 )
@@ -218,7 +218,9 @@ BEGIN
 
     INSERT INTO Code
     (
-        AccountId, CodeId, CodeTypeId, CodeRectangle, BackgroundImage, BackgroundContentType, Payload, InsertedDatetime, InsertedBy
+        AccountId, CodeId, CodeTypeId, CodeRectangle, 
+        #BackgroundImage, 
+        BackgroundContentType, Payload, InsertedDatetime, InsertedBy
     )
     VALUES
     (
@@ -226,7 +228,7 @@ BEGIN
         @nextCodeId,
         codeTypeId,
         codeRectangle,
-        backgroundImage,
+        #backgroundImage,
         backgroundContentType,
         payload,
         UTC_TIMESTAMP(),
@@ -264,7 +266,7 @@ CREATE PROCEDURE QRBaDB.UpdateCode
     codeId INT,
     codeTypeId TINYINT,
     codeRectangle VARCHAR(32),    
-    backgroundImage BLOB,
+    #backgroundImage BLOB,
     backgroundContentType VARCHAR(32),
     payload NVARCHAR(2048)
 )
@@ -278,7 +280,7 @@ BEGIN
     SET 
         CodeTypeId = IFNULL(codeTypeId, CodeTypeId),
         CodeRectangle = IFNULL(codeRectangle, CodeRectangle),
-        BackgroundImage = IFNULL(backgroundImage, BackgroundImage),
+        #BackgroundImage = IFNULL(backgroundImage, BackgroundImage),
         BackgroundContentType = IFNULL(backgroundContentType, BackgroundContentType),
         Payload = IFNULL(payload, Payload),
         UpdatedDatetime = UTC_TIMESTAMP(),

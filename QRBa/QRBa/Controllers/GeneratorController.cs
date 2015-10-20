@@ -88,10 +88,10 @@ namespace QRBa.Controllers
         [HttpPost]
         public ActionResult Place(Code code)
         {
-            int x = Convert.ToInt32(Request["x"].ToString());
-            int y = Convert.ToInt32(Request["y"].ToString());
-            int width = Convert.ToInt32(Request["width"].ToString());
-            int height = Convert.ToInt32(Request["height"].ToString());
+            int x = (int)Math.Round(Convert.ToDouble(Request["x"].ToString()));
+            int y = (int)Math.Round(Convert.ToDouble(Request["y"].ToString()));
+            int width = (int)Math.Round(Convert.ToDouble(Request["width"].ToString()));
+            int height = (int)Math.Round(Convert.ToDouble(Request["height"].ToString()));
 
             code.Rectangle = new Rectangle(x, y, width, height);
             code = DataAccessor.CodeRepository.UpdateCode(code);

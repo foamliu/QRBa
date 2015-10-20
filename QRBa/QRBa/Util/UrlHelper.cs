@@ -16,13 +16,17 @@ namespace QRBa.Util
 
         public static string GetUrl(int accountId, int codeId)
         {
+            return string.Format("{0}i/{1}", Constants.BaseUrl, Code62Encode(accountId, codeId));
+        }
+
+        public static string Code62Encode(int accountId, int codeId)
+        {
             uint u1 = (uint)codeId;
             uint u2 = (uint)accountId;
 
             ulong unsignedKey = (((ulong)u1) << 32) | u2;
             long combinedId = (long)unsignedKey;
-
-            return string.Format("{0}i/{1}", Constants.BaseUrl, Code62Encode(combinedId));
+            return Code62Encode(combinedId);
         }
 
         public static string Code62Encode(long input)

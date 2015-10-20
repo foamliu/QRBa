@@ -32,7 +32,7 @@ namespace QRBa.DataAccess
             code.AccountId = row.GetIntField("AccountId");
             code.CodeId = row.GetIntField("CodeId");
             code.Type = (CodeType)row.GetByteField("CodeTypeId");
-            code.BackgroundImage = row.GetByteArray("BackgroundImage");
+            //code.BackgroundImage = row.GetByteArray("BackgroundImage");
             code.BackgroundContentType = row.GetStringField("BackgroundContentType");
             code.Payload = JsonHelper.Deserialize(row.GetStringField("Payload"), code.Type);
             return code;

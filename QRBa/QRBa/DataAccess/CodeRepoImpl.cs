@@ -19,13 +19,15 @@ namespace QRBa.DataAccess
                                                               {"accountId", newCode.AccountId},
                                                               {"codeTypeId", (byte)newCode.Type},
                                                               {"codeRectangle", JsonConvert.SerializeObject(newCode.Rectangle)},
-                                                              {"backgroundImage", newCode.BackgroundImage},
+                                                              //{"backgroundImage", newCode.BackgroundImage},
                                                               {"backgroundContentType", newCode.BackgroundContentType},
                                                               {"payload", JsonHelper.Serialize(newCode.Payload)},
                                                           });
             if (result.Tables.Count > 1 && result.Tables[1].Rows.Count > 0)
             {
                 var code = new Code().FromRow(result.Tables[1].Rows[0]);
+                code.BackgroundImage = newCode.BackgroundImage;
+                FileHelper.AddFile(code.AccountId, code.CodeId, code.BackgroundContentType, code.BackgroundImage);
                 return code;
             }
             return null;
@@ -41,6 +43,7 @@ namespace QRBa.DataAccess
             if (result.Tables[0].Rows.Count > 0)
             {
                 var code = new Code().FromRow(result.Tables[0].Rows[0]);
+                code.BackgroundImage = FileHelper.GetFile(code.AccountId, code.CodeId, code.BackgroundContentType);
                 return code;
             }
             return null;
@@ -61,6 +64,8 @@ namespace QRBa.DataAccess
             if (result.Tables[0].Rows.Count > 0)
             {
                 var code = new Code().FromRow(result.Tables[0].Rows[0]);
+                code.BackgroundImage = newCode.BackgroundImage;
+                FileHelper.AddFile(code.AccountId, code.CodeId, code.BackgroundContentType, code.BackgroundImage);
                 return code;
             }
             return null;

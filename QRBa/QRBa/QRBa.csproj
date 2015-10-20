@@ -170,6 +170,7 @@
     <Compile Include="Util\Constants.cs" />
     <Compile Include="Util\CookieHelper.cs" />
     <Compile Include="Util\CryptoHelper.cs" />
+    <Compile Include="Util\FileHelper.cs" />
     <Compile Include="Util\JsonHelper.cs" />
     <Compile Include="Util\QrCodeHelper.cs" />
     <Compile Include="Util\UrlHelper.cs" />
