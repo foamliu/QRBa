@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using QRBa.Domain;
 using Newtonsoft.Json;
 using QRBa.Util;
+using System.Data;
 
 namespace QRBa.DataAccess
 {
@@ -57,10 +58,13 @@ namespace QRBa.DataAccess
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {
-                var code = new Code().FromRow(result.Tables[0].Rows[0]);
-                code.BackgroundImage = FileHelper.GetBackground(code.AccountId, code.CodeId, code.BackgroundContentType);
-                code.Thumbnail = FileHelper.GetThumbnail(code.AccountId, code.CodeId);
-                list.Add(code);
+                foreach (DataRow row in result.Tables[0].Rows)
+                {
+                    var code = new Code().FromRow(row);
+                    //code.BackgroundImage = FileHelper.GetBackground(code.AccountId, code.CodeId, code.BackgroundContentType);
+                    code.Thumbnail = FileHelper.GetThumbnail(code.AccountId, code.CodeId);
+                    list.Add(code);
+                }
             }
             return list;
         }
