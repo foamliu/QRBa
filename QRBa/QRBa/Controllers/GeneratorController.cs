@@ -100,13 +100,6 @@ namespace QRBa.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult Download()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpGet]
         public FileResult Download(int codeId)
         {
             var accountId = Convert.ToInt32(CookieHelper.GetCookie(Request, Constants.AccountId));
