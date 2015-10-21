@@ -17,6 +17,8 @@ namespace QRBa.Interface
 
         Account AddAccount(Account newAccount);
 
+        Account GetAccount(int accountId);
+
         Account UpdateAccount(Account newAccount);
 
         Account GetAccountByIdentity(IdentityType idType, string idValue);

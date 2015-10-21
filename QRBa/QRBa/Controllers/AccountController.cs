@@ -84,23 +84,11 @@ namespace QRBa.Controllers
                         PasswordHash = CryptoHelper.Hash(model.Password)
                     });
 
-                int accountId;
-                var cookie = Request.Cookies[Constants.AccountId];
-                if (cookie == null)
-                {
-                    var account = DataAccessor.AccountRepository.AddAccount(new Account { });
-                    CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), false);
-                    accountId = account.Id;
-                }
-                else
-                {
-                    accountId = Convert.ToInt32(cookie.Value);
-                }
-
+                int accountId = GetAccountId();
                 DataAccessor.AccountRepository.AddAccoutIdentity(accountId, (byte)IdentityType.QRBaId, identity.MemberName);
 
-                Success("注册成功!", true);
-                return View();
+                Success("注册成功, 请登录!", true);
+                return View("Login");
             }
             return View(model);
         }

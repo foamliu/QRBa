@@ -1,4 +1,6 @@
-﻿using QRBa.Util;
+﻿using QRBa.DataAccess;
+using QRBa.Domain;
+using QRBa.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +18,10 @@ namespace QRBa.Controllers
         public HttpResponseMessage OnEvent(string input)
         {
             int accountId, codeId;
-
             UrlHelper.Code62Decode(input, out accountId, out codeId);
+            var code = DataAccessor.CodeRepository.GetCode(accountId, codeId);
+            var response = Request.CreateResponse(HttpStatusCode.Moved);
+            response.Headers.Location = new Uri(((UrlPayload)code.Payload).TargetingUrl);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

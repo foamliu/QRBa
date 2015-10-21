@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace QRBa.Controllers
 {
-    public class GeneratorController : Controller
+    public class GeneratorController : BaseController
     {
         // GET: Generator
         public ActionResult Index()
@@ -34,22 +34,6 @@ namespace QRBa.Controllers
                 });
 
             return View("Select", code);
-        }
-
-        private int GetAccountId()
-        {
-            var cookie = Request.Cookies[Constants.AccountId];
-
-            if (cookie == null)
-            {
-                var account = DataAccessor.AccountRepository.AddAccount(new Account { });
-                CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), true);
-                return account.Id;
-            }
-            else
-            {
-                return Convert.ToInt32(cookie.Value);
-            }
         }
 
         [HttpGet]
@@ -111,7 +95,7 @@ namespace QRBa.Controllers
         {
             int accountId = GetAccountId();
             var codes = DataAccessor.CodeRepository.GetCodes(accountId);
-            return View();
+            return View(codes);
         }
 
         [Authorize]

@@ -66,6 +66,20 @@ namespace QRBa.DataAccess
             return false;
         }
 
+        public Account GetAccount(int accountId)
+        {
+            var result = QueryStoreProcedure("GetAccount", new Dictionary<string, object>
+                                                          {
+                                                              {"param_id", accountId}
+                                                          });
+            if (result.Tables[0].Rows.Count > 0)
+            {
+                var account = new Account().FromRow(result.Tables[0].Rows[0]);
+                return account;
+            }
+            return null;
+        }
+
         public Account GetAccountByIdentity(IdentityType idType, string idValue)
         {
             var result = QueryStoreProcedure("GetAccountByIdentity", new Dictionary<string, object>

@@ -42,7 +42,7 @@ namespace QRBa.DataAccess
             if (result.Tables[0].Rows.Count > 0)
             {
                 var code = new Code().FromRow(result.Tables[0].Rows[0]);
-                code.BackgroundImage = FileHelper.GetBackground(code.AccountId, code.CodeId, code.BackgroundContentType);
+                //code.BackgroundImage = FileHelper.GetBackground(code.AccountId, code.CodeId, code.BackgroundContentType);
                 return code;
             }
             return null;

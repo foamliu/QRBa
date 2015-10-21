@@ -1,4 +1,7 @@
-﻿using QRBa.Models;
+﻿using QRBa.DataAccess;
+using QRBa.Domain;
+using QRBa.Models;
+using QRBa.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +22,24 @@ namespace QRBa.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        protected int GetAccountId()
+        {
+            var cookie = Request.Cookies[Constants.AccountId];
+            Account account = null;
+
+            if (cookie != null)
+            {
+                int accountId = Convert.ToInt32(cookie.Value);
+                account = DataAccessor.AccountRepository.GetAccount(accountId);
+                if (account != null && accountId == account.Id)
+                    return accountId;
+            }
+
+            account = DataAccessor.AccountRepository.AddAccount(new Account { });
+            CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), true);
+            return account.Id;
         }
 
         public void Success(string message, bool dismissable = false)
