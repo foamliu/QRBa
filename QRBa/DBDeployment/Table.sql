@@ -67,7 +67,7 @@ CREATE TABLE Code
 );
 
 DROP TABLE IF EXISTS QRBaDB.Event;
-CREATE TABLE Event
+CREATE TABLE QRBaDB.Event
 (
     AccountId INT NOT NULL,
     CodeId INT NOT NULL,  
@@ -76,4 +76,15 @@ CREATE TABLE Event
     InsertedDatetime DATETIME NOT NULL,
     InsertedBy NVARCHAR(64) NOT NULL,
     PRIMARY KEY(AccountId, CodeId, EventTypeId, InsertedDatetime)
+);
+
+DROP TABLE IF EXISTS QRBaDB.Comment;
+CREATE TABLE QRBaDB.Comment
+(
+    AccountId INT NOT NULL,
+    CommentId INT NOT NULL,  
+    Content NVARCHAR(1024) NULL,
+    InsertedDatetime DATETIME NOT NULL,
+    InsertedBy NVARCHAR(64) NOT NULL,
+    PRIMARY KEY(AccountId, CommentId)
 );

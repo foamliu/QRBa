@@ -329,3 +329,49 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS QRBaDB.AddComment;
+DELIMITER //
+CREATE PROCEDURE AddComment
+(
+    param_accountId INT,
+    param_content NVARCHAR(1024)
+)
+BEGIN
+
+    SELECT @nextCommentId := IFNULL(MAX(CommentId), 0) + 1
+    FROM Comment
+    WHERE AccountId = accountId;
+
+    INSERT INTO Comment
+    (
+        AccountId, CommentId, Content, InsertedDatetime, InsertedBy
+    )
+    VALUES
+    (
+        param_accountId,
+        @nextCommentId,
+        param_content,
+        UTC_TIMESTAMP(),
+        CURRENT_USER()
+    );
+
+    SELECT * FROM Comment 
+    WHERE AccountId = accountId
+		AND CommentId = @nextCommentId;
+
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS QRBaDB.GetComments;
+DELIMITER //
+CREATE PROCEDURE GetComments
+(
+)
+BEGIN
+
+    SELECT * FROM Comment
+    ORDER BY InsertedDatetime DESC
+	LIMIT 0, 20;
+
+END //
+DELIMITER ;

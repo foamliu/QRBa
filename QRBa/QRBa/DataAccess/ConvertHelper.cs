@@ -39,5 +39,14 @@ namespace QRBa.DataAccess
             code.Payload = JsonHelper.Deserialize(row.GetStringField("Payload"), code.Type);
             return code;
         }
+
+        public static Comment FromRow(this Comment comment, DataRow row)
+        {
+            comment.AccountId = row.GetIntField("AccountId");
+            comment.CommentId = row.GetIntField("CommentId");
+            comment.Content = row.GetStringField("Content");
+            comment.InsertedDateTime = row.GetDateTimeField("InsertedDateTime");
+            return comment;
+        }
     }
 }

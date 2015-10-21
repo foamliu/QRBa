@@ -57,6 +57,14 @@ namespace QRBa.DataAccess
             set { _codeRepositoryOverrided = value; }
         }
 
+        private static IForumRepository _forumRepositoryOverrided;
+
+        public static IForumRepository ForumRepository
+        {
+            get { return _forumRepositoryOverrided ?? Instance; }
+            set { _forumRepositoryOverrided = value; }
+        }
+
         #endregion
 
         private DataSet QueryStoreProcedure(string spName, IDictionary<string, object> parameters)
