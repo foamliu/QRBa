@@ -1,8 +1,25 @@
-﻿
+﻿@model List<QRBa.Domain.Code>
 @{
     ViewBag.Title = "仪表盘";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>@ViewBag.Title</h2>
+
+<table class="table">
+
+    @if (Model != null && Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.GetThumbnailString()" />
+                    @Html.ActionLink("下载", "Download", new { codeId = item.CodeId })
+                </td>
+            </tr>
+        }
+    }
+
+</table>
 

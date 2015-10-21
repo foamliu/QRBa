@@ -11,6 +11,8 @@ namespace QRBa.Util
         public const long DummyAccountId = -1;
 
         public const string AccountId = "AccountId";
+        public const string ContentType = "image/png";
+        public const string PictureFolder = "~/Pictures";
 
         public const string BaseUrl = "http://qrba.cc/";
     }

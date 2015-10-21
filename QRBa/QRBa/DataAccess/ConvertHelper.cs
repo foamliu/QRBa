@@ -1,8 +1,10 @@
-﻿using QRBa.Domain;
+﻿using Newtonsoft.Json;
+using QRBa.Domain;
 using QRBa.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +34,7 @@ namespace QRBa.DataAccess
             code.AccountId = row.GetIntField("AccountId");
             code.CodeId = row.GetIntField("CodeId");
             code.Type = (CodeType)row.GetByteField("CodeTypeId");
-            //code.BackgroundImage = row.GetByteArray("BackgroundImage");
+            code.Rectangle = JsonConvert.DeserializeObject<Rectangle>(row.GetStringField("CodeRectangle"));
             code.BackgroundContentType = row.GetStringField("BackgroundContentType");
             code.Payload = JsonHelper.Deserialize(row.GetStringField("Payload"), code.Type);
             return code;

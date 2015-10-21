@@ -57,12 +57,46 @@ namespace QRBa.Util
             return background;
         }
 
-        public static int GetSize(string barcodeText)
+        public static void CreateCode(Code code)
         {
-            var encoder = new QrEncoder(ErrorCorrectionLevel.M);
-            var code = encoder.Encode(barcodeText);
-            return code.Matrix.Width;
+            Bitmap bmp;
+            using (var ms = new MemoryStream(code.BackgroundImage))
+            {
+                bmp = new Bitmap(ms);
+            }
+            string url = UrlHelper.GetUrl(code.AccountId, code.CodeId);
+            string fileName = UrlHelper.Code62Encode(code.AccountId, code.CodeId);
+            fileName = Path.Combine(fileName, ".png");
+
+            Bitmap image = QrCodeHelper.Draw(url, bmp, code.Rectangle);
+            byte[] data = QrCodeHelper.ImageToByteArray(image);
+
+            FileHelper.SaveCode(code.AccountId, code.CodeId, data);
         }
+
+        private static bool ThumbnailCallback()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// A thumbnail image is a small version of an image.
+        /// </summary>
+        /// <param name="code"></param>
+        public static void CreateThumbnail(Code code)
+        {
+            var codeBytes = FileHelper.GetCode(code.AccountId, code.CodeId);
+            Image codeImage = ByteArrayToImage(codeBytes);
+            Image thumbnailImage = codeImage.GetThumbnailImage(100, 100, new Image.GetThumbnailImageAbort(ThumbnailCallback) , new IntPtr());
+            FileHelper.SaveThumbnail(code.AccountId, code.CodeId, ImageToByteArray(thumbnailImage));
+        }
+
+        //public static int GetSize(string barcodeText)
+        //{
+        //    var encoder = new QrEncoder(ErrorCorrectionLevel.M);
+        //    var code = encoder.Encode(barcodeText);
+        //    return code.Matrix.Width;
+        //}
 
         public static string Decode(byte[] data)
         {

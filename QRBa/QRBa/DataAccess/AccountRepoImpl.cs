@@ -15,10 +15,10 @@ namespace QRBa.DataAccess
             long newAccountId = idGen.NextId;
             var result = QueryStoreProcedure("AddAccount", new Dictionary<string, object>
                                                           {
-                                                              {"id", newAccountId},
-                                                              {"name", newAccount.Name??string.Empty},
-                                                              {"email", newAccount.Email??string.Empty},
-                                                              {"statusId", (byte)AccountStatusType.Active},
+                                                              {"param_id", newAccountId},
+                                                              {"param_name", newAccount.Name??string.Empty},
+                                                              {"param_email", newAccount.Email??string.Empty},
+                                                              {"param_statusId", (byte)AccountStatusType.Active},
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {
@@ -32,9 +32,9 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("AddAccountIdentity", new Dictionary<string, object>
                                                           {
-                                                              {"accountId", accountId},
-                                                              {"identityTypeId", identityType},
-                                                              {"identityValue", identityValue},
+                                                              {"param_accountId", accountId},
+                                                              {"param_identityTypeId", identityType},
+                                                              {"param_identityValue", identityValue},
                                                           });
         }
 
@@ -42,8 +42,8 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("AddIdentity", new Dictionary<string, object>
                                                           {
-                                                              {"memberName", newIdentity.MemberName.ToLower()},
-                                                              {"passwordHash", newIdentity.PasswordHash}
+                                                              {"param_memberName", newIdentity.MemberName.ToLower()},
+                                                              {"param_passwordHash", newIdentity.PasswordHash}
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {
@@ -56,7 +56,7 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("GetIdentity", new Dictionary<string, object>
                                                           {
-                                                              {"memberName", identity.MemberName.ToLower()}
+                                                              {"param_memberName", identity.MemberName.ToLower()}
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {
@@ -70,8 +70,8 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("GetAccountByIdentity", new Dictionary<string, object>
                                                           {
-                                                              {"identityTypeId", (byte)idType},
-                                                              {"identityValue", idValue.ToLower()},
+                                                              {"param_identityTypeId", (byte)idType},
+                                                              {"param_identityValue", idValue.ToLower()},
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {
@@ -85,10 +85,10 @@ namespace QRBa.DataAccess
         {
             var result = QueryStoreProcedure("UpdateAccount", new Dictionary<string, object>
                                                           {
-                                                              {"id", newAccount.Id},
-                                                              {"name", newAccount.Name},
-                                                              {"email", newAccount.Email},
-                                                              {"statusId", (byte)newAccount.Status},
+                                                              {"param_id", newAccount.Id},
+                                                              {"param_name", newAccount.Name},
+                                                              {"param_email", newAccount.Email},
+                                                              {"param_statusId", (byte)newAccount.Status},
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {

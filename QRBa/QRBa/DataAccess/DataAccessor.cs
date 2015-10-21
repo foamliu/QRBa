@@ -86,10 +86,10 @@ namespace QRBa.DataAccess
             var result = QueryStoreProcedure("GetNextAccountIdRange", new Dictionary<string, object>
                                                                             {
                                                                                 {
-                                                                                    "requester",
+                                                                                    "param_requester",
                                                                                     Environment.MachineName
                                                                                 },
-                                                                                {"rangeLength", size},
+                                                                                {"param_rangeLength", size},
                                                                             });
             if (result.Tables.Count > 1 || result.Tables[1].Rows.Count > 0)
             {

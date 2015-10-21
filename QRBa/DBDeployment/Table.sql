@@ -57,7 +57,6 @@ CREATE TABLE Code
     CodeId INT NOT NULL,    
     CodeTypeId TINYINT NOT NULL,
     CodeRectangle VARCHAR(32) NULL,
-    #BackgroundImage BLOB NULL,
     BackgroundContentType VARCHAR(32) NULL,
     Payload NVARCHAR(2048) NULL,
     InsertedDatetime DATETIME NOT NULL,

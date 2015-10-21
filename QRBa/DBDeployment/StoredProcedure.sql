@@ -3,10 +3,10 @@ DROP PROCEDURE IF EXISTS QRBaDB.AddAccount;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.AddAccount
 (
-    id INT,
-    name NVARCHAR(256),
-    email VARCHAR(128),
-    statusId TINYINT
+    param_id INT,
+    param_name NVARCHAR(256),
+    param_email VARCHAR(128),
+    param_statusId TINYINT
 )
 BEGIN
 
@@ -16,10 +16,10 @@ BEGIN
     )
     VALUES
     (
-        id,
-        name,
-        email,
-        statusId,
+        param_id,
+        param_name,
+        param_email,
+        param_statusId,
         UTC_TIMESTAMP(),
         CURRENT_USER()
     );
@@ -33,12 +33,12 @@ DROP PROCEDURE IF EXISTS QRBaDB.GetAccount;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.GetAccount
 (
-    id int
+    param_id int
 )
 BEGIN
 
     SELECT * FROM Account
-    WHERE Id = id;
+    WHERE Id = param_id;
 
 END //
 DELIMITER ;
@@ -47,8 +47,8 @@ DROP PROCEDURE IF EXISTS QRBaDB.AddIdentity;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.AddIdentity
 (
-    memberName NVARCHAR(64),
-    passwordHash NVARCHAR(256)
+    param_memberName NVARCHAR(64),
+    param_passwordHash NVARCHAR(256)
 )
 BEGIN
 
@@ -61,8 +61,8 @@ BEGIN
     )
     VALUES
     (
-        memberName,
-        passwordHash,
+        param_memberName,
+        param_passwordHash,
         UTC_TIMESTAMP(),
         CURRENT_USER()
     );
@@ -71,7 +71,7 @@ BEGIN
         MemberName,
         PasswordHash
     FROM Identity
-    WHERE MemberName = memberName;
+    WHERE MemberName = param_memberName;
     
 END //
 DELIMITER ;
@@ -80,7 +80,7 @@ DROP PROCEDURE IF EXISTS QRBaDB.GetIdentity;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.GetIdentity
 (
-    memberName NVARCHAR(64)
+    param_memberName NVARCHAR(64)
 )
 BEGIN
 
@@ -88,7 +88,7 @@ BEGIN
         MemberName,
         PasswordHash
     FROM Identity
-    WHERE MemberName = memberName;
+    WHERE MemberName = param_memberName;
 
 END //
 DELIMITER ;
@@ -97,9 +97,9 @@ DROP PROCEDURE IF EXISTS QRBaDB.AddAccountIdentity;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.AddAccountIdentity
 (
-    accountId INT,
-    identityTypeId TINYINT,
-    identityValue NVARCHAR(64)
+    param_accountId INT,
+    param_identityTypeId TINYINT,
+    param_identityValue NVARCHAR(64)
 )
 BEGIN
 
@@ -109,17 +109,17 @@ BEGIN
     )
     VALUES
     (
-        accountId,
-        identityTypeId,
-        identityValue,
+        param_accountId,
+        param_identityTypeId,
+        param_identityValue,
         UTC_TIMESTAMP(),
         CURRENT_USER()
     );
 
     SELECT * FROM AccountIdentity 
-    WHERE AccountId = accountId
-        AND IdentityTypeId = identityTypeId
-        AND IdentityValue = identityValue;
+    WHERE AccountId = param_accountId
+        AND IdentityTypeId = param_identityTypeId
+        AND IdentityValue = param_identityValue;
 
 END //
 DELIMITER ;
@@ -128,8 +128,8 @@ DROP PROCEDURE IF EXISTS QRBaDB.GetAccountByIdentity;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.GetAccountByIdentity
 (
-    identityTypeId TINYINT,
-    identityValue NVARCHAR(64)
+    param_identityTypeId TINYINT,
+    param_identityValue NVARCHAR(64)
 )
 BEGIN
 
@@ -137,8 +137,8 @@ BEGIN
     FROM AccountIdentity ai
         JOIN Account a
         ON ai.AccountId = a.Id
-    WHERE identityTypeId = IdentityTypeId
-        AND identityValue = IdentityValue;
+    WHERE param_identityTypeId = IdentityTypeId
+        AND param_identityValue = IdentityValue;
 
 END //
 DELIMITER ;
@@ -147,14 +147,14 @@ DROP PROCEDURE IF EXISTS QRBaDB.GetNextAccountIdRange;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.GetNextAccountIdRange
 (
-    requester VARCHAR(64),
-    rangeLength INT
+    param_requester VARCHAR(64),
+    param_rangeLength INT
 )
 BEGIN
 
     SELECT @maxDispatched := IFNULL(MAX(EndId), 0) FROM AccountIdAlloc FOR UPDATE;
 
-    IF (rangeLength <= 0) THEN
+    IF (param_rangeLength <= 0) THEN
         SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Account ID range length must be positive!';
 	END IF;
@@ -170,14 +170,14 @@ BEGIN
     VALUES
     (
         @maxDispatched + 1
-        ,@maxDispatched + rangeLength
-        ,requester
+        ,@maxDispatched + param_rangeLength
+        ,param_requester
         ,UTC_TIMESTAMP()
         ,CURRENT_USER()
     );
     
     SELECT @maxDispatched + 1 AS StartId,
-           @maxDispatched + rangeLength AS EndId;
+           @maxDispatched + param_rangeLength AS EndId;
 
 END //
 DELIMITER ;
@@ -203,12 +203,11 @@ DROP PROCEDURE IF EXISTS QRBaDB.AddCode;
 DELIMITER //
 CREATE PROCEDURE AddCode
 (
-    accountId INT,
-    codeTypeId TINYINT,
-    codeRectangle VARCHAR(32),
-    #backgroundImage BLOB,
-    backgroundContentType VARCHAR(32),
-    payload NVARCHAR(2048)
+    param_accountId INT,
+    param_codeTypeId TINYINT,
+    param_codeRectangle VARCHAR(32),
+    param_backgroundContentType VARCHAR(32),
+    param_payload NVARCHAR(2048)
 )
 BEGIN
 
@@ -219,18 +218,16 @@ BEGIN
     INSERT INTO Code
     (
         AccountId, CodeId, CodeTypeId, CodeRectangle, 
-        #BackgroundImage, 
         BackgroundContentType, Payload, InsertedDatetime, InsertedBy
     )
     VALUES
     (
-        accountId,
+        param_accountId,
         @nextCodeId,
-        codeTypeId,
-        codeRectangle,
-        #backgroundImage,
-        backgroundContentType,
-        payload,
+        param_codeTypeId,
+        param_codeRectangle,
+        param_backgroundContentType,
+        param_payload,
         UTC_TIMESTAMP(),
         CURRENT_USER()
     );
@@ -246,14 +243,14 @@ DROP PROCEDURE IF EXISTS QRBaDB.GetCode;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.GetCode
 (
-	accountId INT,
-    codeId INT
+	param_accountId INT,
+    param_codeId INT
 )
 BEGIN
 
     SELECT * FROM Code
-    WHERE AccountId = accountId
-		AND CodeId = codeId;
+    WHERE AccountId = param_accountId
+		AND CodeId = param_codeId;
 
 END //
 DELIMITER ;
@@ -262,35 +259,47 @@ DROP PROCEDURE IF EXISTS QRBaDB.UpdateCode;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.UpdateCode
 (
-    accountId INT,
-    codeId INT,
-    codeTypeId TINYINT,
-    codeRectangle VARCHAR(32),    
-    #backgroundImage BLOB,
-    backgroundContentType VARCHAR(32),
-    payload NVARCHAR(2048)
+    param_accountId INT,
+    param_codeId INT,
+    param_codeTypeId TINYINT,
+    param_codeRectangle VARCHAR(32),    
+    param_backgroundContentType VARCHAR(32),
+    param_payload NVARCHAR(2048)
 )
 BEGIN
 
-	IF (payload = '') THEN 
-		SET payload = NULL;
+	IF (param_payload = '') THEN 
+		SET param_payload = NULL;
 	END IF;
 
     UPDATE QRBaDB.Code
     SET 
-        CodeTypeId = IFNULL(codeTypeId, CodeTypeId),
-        CodeRectangle = IFNULL(codeRectangle, CodeRectangle),
-        #BackgroundImage = IFNULL(backgroundImage, BackgroundImage),
-        BackgroundContentType = IFNULL(backgroundContentType, BackgroundContentType),
-        Payload = IFNULL(payload, Payload),
+        CodeTypeId = IFNULL(param_codeTypeId, CodeTypeId),
+        CodeRectangle = IFNULL(param_codeRectangle, CodeRectangle),
+        BackgroundContentType = IFNULL(param_backgroundContentType, BackgroundContentType),
+        Payload = IFNULL(param_payload, Payload),
         UpdatedDatetime = UTC_TIMESTAMP(),
         UpdatedBy = CURRENT_USER()
-    WHERE AccountId = accountId
-		AND CodeId = codeId;
+    WHERE AccountId = param_accountId
+		AND CodeId = param_codeId;
 
     SELECT * FROM QRBaDB.Code
-    WHERE AccountId = accountId
-		AND CodeId = codeId;
+    WHERE AccountId = param_accountId
+		AND CodeId = param_codeId;
+
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS QRBaDB.GetCodes;
+DELIMITER //
+CREATE PROCEDURE QRBaDB.GetCodes
+(
+	param_accountId INT
+)
+BEGIN
+
+    SELECT * FROM Code
+    WHERE AccountId = param_accountId;
 
 END //
 DELIMITER ;

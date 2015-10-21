@@ -23,20 +23,7 @@ namespace QRBa.Controllers
         public ActionResult Create()
         {
             string url = Request["url"].ToString();
-            int accountId;
-
-            var cookie = Request.Cookies[Constants.AccountId];
-
-            if (cookie == null)
-            {
-                var account = DataAccessor.AccountRepository.AddAccount(new Account { });
-                CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), true);
-                accountId = account.Id;
-            }
-            else
-            {
-                accountId = Convert.ToInt32(cookie.Value);
-            }
+            int accountId = GetAccountId();
 
             var code = DataAccessor.CodeRepository.AddCode(
                 new Code
@@ -47,6 +34,22 @@ namespace QRBa.Controllers
                 });
 
             return View("Select", code);
+        }
+
+        private int GetAccountId()
+        {
+            var cookie = Request.Cookies[Constants.AccountId];
+
+            if (cookie == null)
+            {
+                var account = DataAccessor.AccountRepository.AddAccount(new Account { });
+                CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), true);
+                return account.Id;
+            }
+            else
+            {
+                return Convert.ToInt32(cookie.Value);
+            }
         }
 
         [HttpGet]
@@ -96,12 +99,24 @@ namespace QRBa.Controllers
             code.Rectangle = new Rectangle(x, y, width, height);
             code = DataAccessor.CodeRepository.UpdateCode(code);
 
-            return View("Dashboard");
+            QrCodeHelper.CreateCode(code);
+            QrCodeHelper.CreateThumbnail(code);
+
+            return RedirectToAction("Dashboard", "Generator");
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult Dashboard()
+        {
+            int accountId = GetAccountId();
+            var codes = DataAccessor.CodeRepository.GetCodes(accountId);
+            return View();
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Download()
         {
             return View();
         }
@@ -111,19 +126,9 @@ namespace QRBa.Controllers
         public FileResult Download(int codeId)
         {
             var accountId = Convert.ToInt32(CookieHelper.GetCookie(Request, Constants.AccountId));
-            var code = DataAccessor.CodeRepository.GetCode(accountId, codeId);
-
-            Bitmap bmp;
-            using (var ms = new MemoryStream(code.BackgroundImage))
-            {
-                bmp = new Bitmap(ms);
-            }
-            string url = Util.UrlHelper.GetUrl(code.AccountId, code.CodeId);
-
-            Bitmap image = QrCodeHelper.Draw(url, bmp, code.Rectangle);
-            byte[] data = QrCodeHelper.ImageToByteArray(image);
-
-            return File(data, "image/png", "广告文案.png");
+            //var code = DataAccessor.CodeRepository.GetCode(accountId, codeId);
+            var data = FileHelper.GetCode(accountId, codeId);
+            return File(data, Constants.ContentType);
         }
     }
 }

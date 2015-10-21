@@ -11,37 +11,78 @@ namespace QRBa.Util
 {
     public static class FileHelper
     {
-        public static void AddFile(int accountId, int codeId, string contentType, byte[] data)
+        public static void SaveBackground(int accountId, int codeId, string contentType, byte[] data)
+        {
+            var fileName = UrlHelper.Code62Encode(accountId, codeId);
+            var ext = GetDefaultExtension(contentType);
+            fileName = string.Format("background_{0}{1}", fileName, ext);
+            SaveFile(fileName, contentType, data);
+        }
+
+        public static void SaveCode(int accountId, int codeId, byte[] data)
+        {
+            var fileName = UrlHelper.Code62Encode(accountId, codeId);
+            var ext = GetDefaultExtension(Constants.ContentType);
+            fileName = string.Format("code_{0}{1}", fileName, ext);
+            SaveFile(fileName, Constants.ContentType, data);
+        }
+
+        public static void SaveThumbnail(int accountId, int codeId, byte[] data)
+        {
+            var fileName = UrlHelper.Code62Encode(accountId, codeId);
+            var ext = GetDefaultExtension(Constants.ContentType);
+            fileName = string.Format("thumbnail_{0}{1}", fileName, ext);
+            SaveFile(fileName, Constants.ContentType, data);
+        }
+
+        public static byte[] GetBackground(int accountId, int codeId, string contentType)
+        {
+            var fileName = UrlHelper.Code62Encode(accountId, codeId);
+            var ext = GetDefaultExtension(contentType);
+            fileName = string.Format("background_{0}{1}", fileName, ext);
+            return GetFile(fileName);
+        }
+
+        public static byte[] GetCode(int accountId, int codeId)
+        {
+            var fileName = UrlHelper.Code62Encode(accountId, codeId);
+            var ext = GetDefaultExtension(Constants.ContentType);
+            fileName = string.Format("code_{0}{1}", fileName, ext);
+            return GetFile(fileName);
+        }
+
+        public static byte[] GetThumbnail(int accountId, int codeId)
+        {
+            var fileName = UrlHelper.Code62Encode(accountId, codeId);
+            var ext = GetDefaultExtension(Constants.ContentType);
+            fileName = string.Format("thumbnail_{0}{1}", fileName, ext);
+            return GetFile(fileName);
+        }
+
+        private static void SaveFile(string fileName, string contentType, byte[] data)
         {
             if (contentType != null && data != null)
             {
-                string targetFolder = HttpContext.Current.Server.MapPath("~/Uploads");
+                string targetFolder = HttpContext.Current.Server.MapPath(Constants.PictureFolder);
                 if (!Directory.Exists(targetFolder))
                 {
                     Directory.CreateDirectory(targetFolder);
                 }
-
-                string fileName = UrlHelper.Code62Encode(accountId, codeId);
-                fileName += GetDefaultExtension(contentType);
 
                 string targetPath = Path.Combine(targetFolder, fileName);
                 File.WriteAllBytes(targetPath, data);
             }
         }
 
-        public static byte[] GetFile(int accountId, int codeId, string contentType)
+        private static byte[] GetFile(string fileName)
         {
-            if (contentType != null)
+            string targetFolder = HttpContext.Current.Server.MapPath(Constants.PictureFolder);
+            string targetPath = Path.Combine(targetFolder, fileName);
+            if (File.Exists(targetPath))
             {
-                string fileName = UrlHelper.Code62Encode(accountId, codeId);
-                fileName += "." + GetDefaultExtension(contentType);
-                string targetFolder = HttpContext.Current.Server.MapPath("~/Uploads");
-                string targetPath = Path.Combine(targetFolder, fileName);
-                if (File.Exists(targetPath))
-                {
-                    return File.ReadAllBytes(targetPath);
-                }
+                return File.ReadAllBytes(targetPath);
             }
+
             return null;
         }
 
