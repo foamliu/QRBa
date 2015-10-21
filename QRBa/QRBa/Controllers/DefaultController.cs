@@ -22,7 +22,7 @@ namespace QRBa.Controllers
             var code = DataAccessor.CodeRepository.GetCode(accountId, codeId);
             var response = Request.CreateResponse(HttpStatusCode.Moved);
             response.Headers.Location = new Uri(((UrlPayload)code.Payload).TargetingUrl);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return response;
         }
     }
 }
