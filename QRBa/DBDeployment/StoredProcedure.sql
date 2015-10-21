@@ -43,6 +43,31 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS QRBaDB.UpdateAccount;
+DELIMITER //
+CREATE PROCEDURE QRBaDB.UpdateAccount
+(
+    param_id BIGINT,
+    param_name NVARCHAR(256),
+    param_email VARCHAR(128),
+    param_statusId TINYINT
+)
+BEGIN
+
+    UPDATE Account
+    SET 
+        Name = IFNULL(param_name, Name),
+        Email = IFNULL(param_email, Email),
+        UpdatedDatetime = UTC_TIMESTAMP(),
+        UpdatedBy = CURRENT_USER()
+    WHERE Id = param_id;
+
+    SELECT * FROM Account
+    WHERE Id = param_id;
+
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS QRBaDB.AddIdentity;
 DELIMITER //
 CREATE PROCEDURE QRBaDB.AddIdentity

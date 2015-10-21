@@ -93,14 +93,40 @@ namespace QRBa.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public ActionResult Manage()
         {
+            int accountId = GetAccountId();
+            var account = DataAccessor.AccountRepository.GetAccount(accountId);
+            var model = new ManageAccountViewModel
+            {
+                Name = account.Name
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Manage(ManageAccountViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int accountId = GetAccountId();
+                var account = DataAccessor.AccountRepository.UpdateAccount(
+                    new Account
+                    {
+                        Id = accountId,
+                        Name = model.Name
+                    });
+                Success("账户信息更新成功!", true);
+                return View();
+            }
             return View();
         }
     }
