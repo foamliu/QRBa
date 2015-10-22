@@ -51,6 +51,12 @@ namespace QRBa.Controllers
 
                 if (file != null && file.ContentLength > 0)
                 {
+                    if (file.ContentLength > 300 * 1024)
+                    {
+                        Danger("图片太大，无法上传。 ╮(╯▽╰)╭");
+                        return View();
+                    }
+
                     var fileName = Path.GetFileName(file.FileName);
                     MemoryStream target = new MemoryStream();
                     file.InputStream.CopyTo(target);
