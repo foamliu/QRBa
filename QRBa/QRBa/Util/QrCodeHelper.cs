@@ -63,6 +63,15 @@ namespace QRBa.Util
             using (var ms = new MemoryStream(code.BackgroundImage))
             {
                 bmp = new Bitmap(ms);
+                if (bmp.PixelFormat == PixelFormat.Format8bppIndexed)
+                {
+                    Bitmap newBmp = new Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
+                    using (Graphics gfx = Graphics.FromImage(newBmp))
+                    {
+                        gfx.DrawImage(bmp, 0, 0);
+                    }
+                    bmp = newBmp;
+                }
             }
             string url = UrlHelper.GetUrl(code.AccountId, code.CodeId);
             string fileName = UrlHelper.Code62Encode(code.AccountId, code.CodeId);
