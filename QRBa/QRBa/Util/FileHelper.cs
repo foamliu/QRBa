@@ -86,7 +86,7 @@ namespace QRBa.Util
             return null;
         }
 
-        private static string GetDefaultExtension(string mimeType)
+        public static string GetDefaultExtension(string mimeType)
         {
             string result;
             RegistryKey key;

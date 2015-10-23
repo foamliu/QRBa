@@ -23,17 +23,7 @@ namespace QRBa.Domain
 
         public Payload Payload { get; set; }
 
-        public string GetImageString()
-        {
-            return this.BackgroundImage != null ? (string.Format("data:{0};base64,{1}", BackgroundContentType, Convert.ToBase64String(this.BackgroundImage))) : null;
-        }
-
         public byte[] Thumbnail { get; set; }
-
-        public string GetThumbnailString()
-        {
-            return this.Thumbnail != null ? (string.Format("data:{0};base64,{1}", "image/png", Convert.ToBase64String(this.Thumbnail))) : null;
-        }
     }
 
     public abstract class Payload

@@ -1,4 +1,5 @@
-﻿@model QRBa.Domain.Code
+﻿@using QRBa.DataAccess
+@model QRBa.Domain.Code
 @{
     ViewBag.Title = "放置";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,7 +22,7 @@
         <hr />
         <p>请把二维码拖动到您文案中恰当的位置，并调整其尺寸：</p>
         <p></p>
-        <div id="container" style="background: url('@Model.GetImageString()') no-repeat top left"> </div>
+        <div id="container" style="background: url('@Model.GetImagePath()') no-repeat top left"> </div>
         <script>
     var width = window.innerWidth;
     var height = window.innerHeight;

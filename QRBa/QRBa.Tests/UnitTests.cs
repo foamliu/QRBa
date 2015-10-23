@@ -116,7 +116,7 @@ namespace QRBa.Tests
         }
 
         [TestMethod]
-        public void vCardLibTest()
+        public void UT_vCardLibTest()
         {
             vCard card = new vCard();
 
@@ -221,6 +221,30 @@ TITLE:高级研发经理
 END:VCARD
 ";
             Assert.AreEqual(expected, sb.ToString());
+        }
+
+        [TestMethod]
+        public void UT_JpegCompressionTest()
+        {
+            Bitmap bmp = (Bitmap)Bitmap.FromFile(@"Images\image_1.jpg");
+            ImageCodecInfo jpgEncoder;
+            EncoderParameters encoderParams;
+            QrCodeHelper.GetJpegParams(10, out jpgEncoder, out encoderParams);
+            bmp.Save("level-10.jpg", jpgEncoder, encoderParams);
+            QrCodeHelper.GetJpegParams(50, out jpgEncoder, out encoderParams);
+            bmp.Save("level-50.jpg", jpgEncoder, encoderParams);
+            QrCodeHelper.GetJpegParams(90, out jpgEncoder, out encoderParams);
+            bmp.Save("level-90.jpg", jpgEncoder, encoderParams);
+        }
+
+        [TestMethod]
+        public void UT_JpegCompressionTestEx()
+        {
+            Bitmap bmp = (Bitmap)Bitmap.FromFile(@"C:\temp\background_E3zjaD.jpg");
+            ImageCodecInfo jpgEncoder;
+            EncoderParameters encoderParams;
+            QrCodeHelper.GetJpegParams(50, out jpgEncoder, out encoderParams);
+            bmp.Save("background-level-50.jpg", jpgEncoder, encoderParams);
         }
     }
 }

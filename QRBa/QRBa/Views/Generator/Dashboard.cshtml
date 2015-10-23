@@ -1,4 +1,5 @@
-﻿@model IEnumerable<QRBa.Domain.Code>
+﻿@using QRBa.DataAccess
+@model IEnumerable<QRBa.Domain.Code>
 
 @{
     ViewBag.Title = "仪表盘";
@@ -15,7 +16,7 @@
         {
             <tr>
                 <td>
-                    <img src="@item.GetThumbnailString()" />
+                    <img src="@item.GetThumbnailPath()" />
                     @Html.ActionLink("下载", "Download", new { codeId = item.CodeId })
                 </td>
             </tr>
