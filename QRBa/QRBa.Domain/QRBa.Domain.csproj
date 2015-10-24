@@ -46,6 +46,7 @@
     <Compile Include="Code.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="Enum.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Identity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

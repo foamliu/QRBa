@@ -57,6 +57,14 @@ namespace QRBa.DataAccess
             set { _codeRepositoryOverrided = value; }
         }
 
+        private static IEventRepository _eventRepositoryOverrided;
+
+        public static IEventRepository EventRepository
+        {
+            get { return _eventRepositoryOverrided ?? Instance; }
+            set { _eventRepositoryOverrided = value; }
+        }
+
         private static IForumRepository _forumRepositoryOverrided;
 
         public static IForumRepository ForumRepository

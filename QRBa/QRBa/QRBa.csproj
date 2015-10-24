@@ -160,6 +160,7 @@
     <Compile Include="DataAccess\CodeRepoImpl.cs" />
     <Compile Include="DataAccess\ConvertHelper.cs" />
     <Compile Include="DataAccess\DataAccessor.cs" />
+    <Compile Include="DataAccess\EventRepoImpl.cs" />
     <Compile Include="DataAccess\Extentions.cs" />
     <Compile Include="DataAccess\ForumRepoImpl.cs" />
     <Compile Include="Global.asax.cs">

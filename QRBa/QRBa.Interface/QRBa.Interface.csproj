@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IAccountRepository.cs" />
     <Compile Include="ICodeRepository.cs.cs" />
+    <Compile Include="IEventRepository.cs" />
     <Compile Include="IForumRepository.cs" />
     <Compile Include="ITestability.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

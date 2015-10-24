@@ -40,6 +40,15 @@ namespace QRBa.DataAccess
             return code;
         }
 
+        public static Event FromRow(this Event evt, DataRow row)
+        {
+            evt.AccountId = row.GetIntField("AccountId");
+            evt.CodeId = row.GetIntField("CodeId");
+            evt.Type = (EventType)row.GetByteField("EventTypeId");
+            evt.Payload = row.GetStringField("Payload");
+            return evt;
+        }
+
         public static Comment FromRow(this Comment comment, DataRow row)
         {
             comment.AccountId = row.GetIntField("AccountId");

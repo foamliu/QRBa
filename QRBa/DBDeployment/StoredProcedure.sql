@@ -375,3 +375,40 @@ BEGIN
 
 END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS QRBaDB.AddEvent;
+DELIMITER //
+CREATE PROCEDURE QRBaDB.AddEvent
+(
+    param_accountId INT,
+    param_codeId INT,
+    param_eventTypeId TINYINT,
+    payload NVARCHAR(2048)
+)
+BEGIN
+
+    SET @dtUtcNow := UTC_TIMESTAMP();
+
+    INSERT INTO QRBaDB.Event
+    (
+        AccountId, CodeId, EventTypeId, Payload, InsertedDatetime, InsertedBy
+    )
+    VALUES
+    (
+        param_accountId,
+        param_codeId,
+        param_eventTypeId,
+        payload,
+        @dtUtcNow,
+        CURRENT_USER()
+    );
+    
+    SELECT * FROM QRBaDB.Event
+    WHERE AccountId = param_accountId
+		AND CodeId = param_codeId
+        AND EventTypeId = param_eventTypeId
+        AND InsertedDatetime = @dtUtcNow;
+
+END //
+DELIMITER ;
+
