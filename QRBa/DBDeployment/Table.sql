@@ -1,7 +1,7 @@
 use QRBaDB;
 
 DROP TABLE IF EXISTS QRBaDB.Identity;
-CREATE TABLE Identity
+CREATE TABLE QRBaDB.Identity
 (
     MemberName NVARCHAR(64) NOT NULL PRIMARY KEY,
     PasswordHash NVARCHAR(256) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE Identity
 );
 
 DROP TABLE IF EXISTS QRBaDB.Account;
-CREATE TABLE Account
+CREATE TABLE QRBaDB.Account
 (
     Id INT NOT NULL PRIMARY KEY,
     Name NVARCHAR(256) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE Account
 );
 
 DROP TABLE IF EXISTS QRBaDB.AccountIdAlloc;
-CREATE TABLE AccountIdAlloc
+CREATE TABLE QRBaDB.AccountIdAlloc
 (
     StartId bigint NOT NULL,
     EndId   bigint NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE AccountIdAlloc
 );
 
 DROP TABLE IF EXISTS QRBaDB.AccountIdentity;
-CREATE TABLE AccountIdentity
+CREATE TABLE QRBaDB.AccountIdentity
 (
     AccountId BIGINT NOT NULL,
     IdentityTypeId TINYINT NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE AccountIdentity
 );
 
 DROP TABLE IF EXISTS QRBaDB.Code;
-CREATE TABLE Code
+CREATE TABLE QRBaDB.Code
 (
     AccountId INT NOT NULL,
     CodeId INT NOT NULL,    

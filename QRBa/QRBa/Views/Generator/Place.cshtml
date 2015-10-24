@@ -20,7 +20,8 @@
 
     <div class="form-horizontal">
         <hr />
-        <p>请把二维码拖动到您文案中恰当的位置，并调整其尺寸：</p>
+        <p>请把二维码拖拽到合适的地方，调整大小，完成后点“合成”按钮：
+        <input type="submit" value="合成" class="btn btn-primary" onclick="return collect();" /></p>
         <p></p>
         <div id="container" style="background: url('@Model.GetImagePath()') no-repeat top left"> </div>
         <script>
@@ -158,13 +159,6 @@
         $("#height").val(bottomRight.getY() - topLeft.getY());
         return true;
     }
-        </script>
-
-        <p><input type="submit" value="完成" class="btn btn-primary" onclick="return collect();" /></p>
-
-        <script>
-
-
         </script>
     </div>
 }
