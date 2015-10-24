@@ -74,7 +74,7 @@ namespace QRBa.Util
             }
         }
 
-        private static byte[] GetFile(string fileName)
+        public static byte[] GetFile(string fileName)
         {
             string targetFolder = HttpContext.Current.Server.MapPath(Constants.PictureFolder);
             string targetPath = Path.Combine(targetFolder, fileName);

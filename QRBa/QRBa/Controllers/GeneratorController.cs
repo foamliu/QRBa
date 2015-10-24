@@ -67,8 +67,20 @@ namespace QRBa.Controllers
 
                     return View("Place", code);
                 }
-            }
+                else if (Request["sample_id"] != null && Request["sample_id"].ToString() != "0")
+                {
+                    var sampleId = Convert.ToInt32(Request["sample_id"].ToString());
+                    var fileName = string.Format("background_sample_{0}.jpg", sampleId);
 
+                    code.BackgroundImage = FileHelper.GetFile(fileName);
+                    code.BackgroundContentType = "image/jpeg";
+
+                    code = DataAccessor.CodeRepository.UpdateCode(code);
+
+                    return View("Place", code);
+                }
+            }
+            
             return View();
         }
 

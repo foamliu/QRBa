@@ -6,11 +6,12 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Select", "Generator", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Select", "Generator", FormMethod.Post, new { id = "select_form", enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(m => m.AccountId)
     @Html.HiddenFor(m => m.CodeId)
     @Html.HiddenFor(m => m.Type)
+    <input type="hidden" id="sample_id" name="sample_id" value="0" />
 
     <div class="form-group">
         <input class="form-control" type="file" name="file" />
@@ -19,5 +20,22 @@
 
     <div class="form-group">
         <input type="submit" value="上传" class="btn btn-primary" />
+    </div>
+
+    <div class="form-group">
+        或者选一张样例图片：
+        @{
+            for (int i = 1; i <= 8; i++)
+            {
+                var fileName = string.Format("/Pictures/background_sample_{0}.jpg", i);
+                <div><img src="@fileName" onclick="collect(@i)" /></div>
+            }
+        }
+        <script>
+            function collect(i) {
+                $("#sample_id").val(i);
+                document.getElementById("select_form").submit();
+            }
+        </script>
     </div>
 }
