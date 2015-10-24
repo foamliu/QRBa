@@ -23,7 +23,7 @@ namespace QRBa.Util
 
             if (x + width >= background.Width || y + height >= background.Height)
             {
-                throw new Exception(ErrorConstants.Out_Of_Range);
+                throw new QRBaException(ErrorConstants.Out_Of_Range);
             }
 
             var encoder = new QrEncoder(ErrorCorrectionLevel.M);
@@ -31,7 +31,7 @@ namespace QRBa.Util
 
             if (width < code.Matrix.Width * 2 || height < code.Matrix.Height * 2)
             {
-                throw new Exception(ErrorConstants.Window_Too_Small);
+                throw new QRBaException(ErrorConstants.Window_Too_Small);
             }
 
             byte[,] map = Calculate(code, background.Width, background.Height, new Rectangle(x, y, width, height));

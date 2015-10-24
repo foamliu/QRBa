@@ -80,7 +80,7 @@ namespace QRBa.Controllers
                     return View("Place", code);
                 }
             }
-            
+
             return View();
         }
 
@@ -93,18 +93,26 @@ namespace QRBa.Controllers
         [HttpPost]
         public ActionResult Place(Code code)
         {
-            int x = (int)Math.Round(Convert.ToDouble(Request["x"].ToString()));
-            int y = (int)Math.Round(Convert.ToDouble(Request["y"].ToString()));
-            int width = (int)Math.Round(Convert.ToDouble(Request["width"].ToString()));
-            int height = (int)Math.Round(Convert.ToDouble(Request["height"].ToString()));
+            try
+            {
+                int x = (int)Math.Round(Convert.ToDouble(Request["x"].ToString()));
+                int y = (int)Math.Round(Convert.ToDouble(Request["y"].ToString()));
+                int width = (int)Math.Round(Convert.ToDouble(Request["width"].ToString()));
+                int height = (int)Math.Round(Convert.ToDouble(Request["height"].ToString()));
 
-            code.Rectangle = new Rectangle(x, y, width, height);
-            code = DataAccessor.CodeRepository.UpdateCode(code);
+                code.Rectangle = new Rectangle(x, y, width, height);
+                code = DataAccessor.CodeRepository.UpdateCode(code);
 
-            QrCodeHelper.CreateCode(code);
-            QrCodeHelper.CreateThumbnail(code);
+                QrCodeHelper.CreateCode(code);
+                QrCodeHelper.CreateThumbnail(code);
 
-            return RedirectToAction("Dashboard", "Generator");
+                return RedirectToAction("Dashboard", "Generator");
+            }
+            catch (QRBaException ex)
+            {
+                Danger(ex.Message);
+                return View(code);
+            }
         }
 
         [Authorize]

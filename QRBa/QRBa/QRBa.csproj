@@ -47,6 +47,9 @@
     <Reference Include="Gma.QrCodeNet.Encoding.Net45">
       <HintPath>..\Libs\QrCode.Net 0.4\Gma.QrCodeNet.Encoding.Net45.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Libs\log4net-1.2.13\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -147,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\ExceptionHandlingAttribute.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
