@@ -387,7 +387,7 @@ CREATE PROCEDURE QRBaDB.AddEvent
     param_accountId INT,
     param_codeId INT,
     param_eventTypeId TINYINT,
-    payload NVARCHAR(2048)
+    param_payload NVARCHAR(2048)
 )
 BEGIN
 
@@ -402,7 +402,7 @@ BEGIN
         param_accountId,
         param_codeId,
         param_eventTypeId,
-        payload,
+        param_payload,
         @dtUtcNow,
         CURRENT_USER()
     );
