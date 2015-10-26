@@ -19,6 +19,7 @@ namespace QRBa.DataAccess
                                                               {"param_name", newAccount.Name??string.Empty},
                                                               {"param_email", newAccount.Email??string.Empty},
                                                               {"param_statusId", (byte)AccountStatusType.Active},
+                                                              {"param_clientInfo", newAccount.ClientInfo }
                                                           });
             if (result.Tables[0].Rows.Count > 0)
             {

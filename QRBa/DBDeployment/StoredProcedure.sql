@@ -6,13 +6,14 @@ CREATE PROCEDURE QRBaDB.AddAccount
     param_id INT,
     param_name NVARCHAR(256),
     param_email VARCHAR(128),
-    param_statusId TINYINT
+    param_statusId TINYINT,
+    param_clientInfo NVARCHAR(256)
 )
 BEGIN
 
     INSERT INTO Account
     (
-        Id,Name,Email,StatusId,InsertedDatetime,InsertedBy
+        Id,Name,Email,StatusId,ClientInfo,InsertedDatetime,InsertedBy
     )
     VALUES
     (
@@ -20,6 +21,7 @@ BEGIN
         param_name,
         param_email,
         param_statusId,
+        param_clientInfo,
         UTC_TIMESTAMP(),
         CURRENT_USER()
     );
@@ -50,7 +52,8 @@ CREATE PROCEDURE QRBaDB.UpdateAccount
     param_id BIGINT,
     param_name NVARCHAR(256),
     param_email VARCHAR(128),
-    param_statusId TINYINT
+    param_statusId TINYINT,
+    param_clientInfo NVARCHAR(256)
 )
 BEGIN
 
@@ -58,6 +61,7 @@ BEGIN
     SET 
         Name = IFNULL(param_name, Name),
         Email = IFNULL(param_email, Email),
+        ClientInfo = IFNULL(param_clientInfo, ClientInfo),
         UpdatedDatetime = UTC_TIMESTAMP(),
         UpdatedBy = CURRENT_USER()
     WHERE Id = param_id;

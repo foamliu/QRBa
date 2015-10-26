@@ -1,4 +1,5 @@
-﻿using QRBa.DataAccess;
+﻿using Newtonsoft.Json;
+using QRBa.DataAccess;
 using QRBa.Domain;
 using QRBa.Models;
 using QRBa.Util;
@@ -37,9 +38,18 @@ namespace QRBa.Controllers
                     return accountId;
             }
 
-            account = DataAccessor.AccountRepository.AddAccount(new Account { });
+            account = DataAccessor.AccountRepository.AddAccount(new Account { ClientInfo = GetClientInfo() });
             CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), true);
             return account.Id;
+        }
+
+        protected string GetClientInfo()
+        {
+            return JsonConvert.SerializeObject(new
+            {
+                UserAgent = Request.UserAgent,
+                UserHostAddress = Request.UserHostAddress
+            });
         }
 
         public void Success(string message, bool dismissable = false)

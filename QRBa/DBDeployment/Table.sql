@@ -18,6 +18,7 @@ CREATE TABLE QRBaDB.Account
     Name NVARCHAR(256) NOT NULL,
     Email VARCHAR(128) NOT NULL,
     StatusId TINYINT NOT NULL,
+    ClientInfo NVARCHAR(256) NOT NULL,
     InsertedDatetime DATETIME NOT NULL,
     InsertedBy NVARCHAR(64) NOT NULL,
     UpdatedDatetime DATETIME NULL,

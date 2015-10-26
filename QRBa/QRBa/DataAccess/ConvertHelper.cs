@@ -26,6 +26,7 @@ namespace QRBa.DataAccess
             acct.Name = row.GetStringField("Name");
             acct.Email = row.GetStringField("Email");
             acct.Status = (AccountStatusType)(row.GetByteField("StatusId"));
+            acct.ClientInfo = row.GetStringField("ClientInfo");
             return acct;
         }
 

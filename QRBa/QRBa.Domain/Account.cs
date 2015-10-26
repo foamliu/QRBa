@@ -21,5 +21,8 @@ namespace QRBa.Domain
 
         [DataMember]
         public AccountStatusType Status { get; set; }
+
+        [DataMember]
+        public string ClientInfo { get; set; }
     }
 }
