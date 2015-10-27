@@ -76,5 +76,9 @@ namespace QRBa.DataAccess
             return fileName;
         }
 
+        public static Uri GetUri(this string s)
+        {
+            return new UriBuilder(s).Uri;
+        }
     }
 }

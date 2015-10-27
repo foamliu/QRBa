@@ -68,16 +68,15 @@ CREATE TABLE QRBaDB.Code
 );
 
 DROP TABLE IF EXISTS QRBaDB.Event;
-CREATE TABLE QRBaDB.Event
-(
-    AccountId INT NOT NULL,
-    CodeId INT NOT NULL,  
-    EventTypeId TINYINT NOT NULL,
-    Payload NVARCHAR(2048) NULL,
-    InsertedDatetime DATETIME NOT NULL,
-    InsertedBy NVARCHAR(64) NOT NULL,
-    PRIMARY KEY(AccountId, CodeId, EventTypeId, InsertedDatetime)
-);
+#CREATE TABLE QRBaDB.Event
+#(
+#    AccountId INT NOT NULL,
+#    CodeId INT NOT NULL,  
+#    EventTypeId TINYINT NOT NULL,
+#    Payload NVARCHAR(2048) NULL,
+#    InsertedDatetime DATETIME NOT NULL,
+#    InsertedBy NVARCHAR(64) NOT NULL
+#);
 
 DROP TABLE IF EXISTS QRBaDB.Comment;
 CREATE TABLE QRBaDB.Comment

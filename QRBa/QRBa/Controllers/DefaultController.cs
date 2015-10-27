@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using log4net;
+using Newtonsoft.Json;
 using QRBa.DataAccess;
 using QRBa.Domain;
 using QRBa.Util;
@@ -15,6 +16,8 @@ namespace QRBa.Controllers
     [RoutePrefix("i")]
     public class DefaultController : ApiController
     {
+        private static readonly ILog logger = LogManager.GetLogger("QRBa");
+
         [HttpGet]
         [Route("{input}")]
         public HttpResponseMessage OnEvent(string input)
@@ -29,17 +32,14 @@ namespace QRBa.Controllers
                 var payload = JsonConvert.SerializeObject(
                     new
                     {
-                        ClientAddress = GetClientIp(),
-                        UserAgent = Request.Headers.UserAgent.ToString(),
-                    });
-                DataAccessor.EventRepository.AddEvent(
-                    new Event
-                    {
                         AccountId = accountId,
                         CodeId = codeId,
                         Type = EventType.Click,
-                        Payload = payload
+                        ClientAddress = GetClientIp(),
+                        UserAgent = Request.Headers.UserAgent.ToString(),
                     });
+
+                logger.Info(payload);
                 url = ((UrlPayload)code.Payload).TargetingUrl;
             }
             else
@@ -47,7 +47,7 @@ namespace QRBa.Controllers
                 url = Constants.BaseUrl;
             }
             var response = Request.CreateResponse(HttpStatusCode.Moved);
-            response.Headers.Location = new Uri(url);
+            response.Headers.Location = url.GetUri();
             return response;
         }
 
