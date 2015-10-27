@@ -96,7 +96,15 @@ namespace QRBa.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
+            Response.Cookies.Clear();
+
             FormsAuthentication.SignOut();
+
+            HttpCookie c = new HttpCookie(Constants.AccountId);
+            c.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Add(c);
+
+            Session.Clear();
             return RedirectToAction("Index", "Home");
         }
 

@@ -26,7 +26,7 @@ BEGIN
         CURRENT_USER()
     );
 
-    SELECT * FROM Account WHERE Id = id;
+    SELECT * FROM Account WHERE Id = param_id;
 
 END //
 DELIMITER ;
@@ -242,7 +242,7 @@ BEGIN
 
     SELECT @nextCodeId := IFNULL(MAX(CodeId), 0) + 1
     FROM Code
-    WHERE AccountId = accountId;
+    WHERE AccountId = param_accountId;
 
     INSERT INTO Code
     (
@@ -262,7 +262,7 @@ BEGIN
     );
 
     SELECT * FROM Code 
-    WHERE AccountId = accountId
+    WHERE AccountId = param_accountId
 		AND CodeId = @nextCodeId;
 
 END //
@@ -344,7 +344,7 @@ BEGIN
 
     SELECT @nextCommentId := IFNULL(MAX(CommentId), 0) + 1
     FROM Comment
-    WHERE AccountId = accountId;
+    WHERE AccountId = param_accountId;
 
     INSERT INTO Comment
     (
