@@ -47,7 +47,7 @@ namespace QRBa.Controllers
         {
             return JsonConvert.SerializeObject(new
             {
-                UserAgent = Request.UserAgent,
+                UserAgent = Request.UserAgent.Truncate(400),
                 UserHostAddress = Request.UserHostAddress
             });
         }

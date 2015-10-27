@@ -11,6 +11,7 @@ namespace QRBa.DataAccess
 {
     public static class Extentions
     {
+        #region DataRow Extentions
         public static string GetStringField(this DataRow row, string columnName)
         {
             return row[columnName] == DBNull.Value ? null : Convert.ToString(row[columnName]);
@@ -50,6 +51,7 @@ namespace QRBa.DataAccess
         {
             return new Guid(Convert.ToString(row[columnName]));
         }
+        #endregion
 
         public static string GetImageString(this Code code)
         {
@@ -80,5 +82,12 @@ namespace QRBa.DataAccess
         {
             return new UriBuilder(s).Uri;
         }
+
+        public static string Truncate(this string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+        }
+
     }
 }

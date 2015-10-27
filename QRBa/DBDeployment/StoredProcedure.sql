@@ -7,7 +7,7 @@ CREATE PROCEDURE QRBaDB.AddAccount
     param_name NVARCHAR(256),
     param_email VARCHAR(128),
     param_statusId TINYINT,
-    param_clientInfo NVARCHAR(256)
+    param_clientInfo VARCHAR(500)
 )
 BEGIN
 
@@ -53,7 +53,7 @@ CREATE PROCEDURE QRBaDB.UpdateAccount
     param_name NVARCHAR(256),
     param_email VARCHAR(128),
     param_statusId TINYINT,
-    param_clientInfo NVARCHAR(256)
+    param_clientInfo VARCHAR(500)
 )
 BEGIN
 
