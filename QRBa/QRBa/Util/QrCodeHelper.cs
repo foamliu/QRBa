@@ -276,7 +276,7 @@ namespace QRBa.Util
         {
             FillRoundedRectangle(map, (byte)ColorType.Dark, new Rectangle(x + 0 * N, y + 0 * N, 5 * N, 5 * N));
             FillRoundedRectangle(map, (byte)ColorType.Light, new Rectangle(x + 1 * N, y + 1 * N, 3 * N, 3 * N));
-            FillRoundedRectangle(map, (byte)ColorType.Dark, new Rectangle(x + 2 * N, y + 2 * N, 1 * N, 1 * N));
+            FillRectangle(map, (byte)ColorType.Dark, new Rectangle(x + 2 * N, y + 2 * N, 1 * N, 1 * N));
         }
 
         public static Image ByteArrayToImage(byte[] byteArrayIn)

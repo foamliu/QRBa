@@ -21,25 +21,33 @@ namespace QRBa.Controllers
         {
             int accountId, codeId;
             UrlHelper.Code62Decode(input, out accountId, out codeId);
+            string url = null;
             var code = DataAccessor.CodeRepository.GetCode(accountId, codeId);
 
-            var payload = JsonConvert.SerializeObject(
-                new
-                {
-                    ClientAddress = GetClientIp(),
-                    UserAgent = Request.Headers.UserAgent.ToString(),
-                });
-            DataAccessor.EventRepository.AddEvent(
-                new Event
-                {
-                    AccountId = accountId,
-                    CodeId = codeId,
-                    Type = EventType.Click,
-                    Payload = payload
-                });
-
+            if (null != code)
+            {
+                var payload = JsonConvert.SerializeObject(
+                    new
+                    {
+                        ClientAddress = GetClientIp(),
+                        UserAgent = Request.Headers.UserAgent.ToString(),
+                    });
+                DataAccessor.EventRepository.AddEvent(
+                    new Event
+                    {
+                        AccountId = accountId,
+                        CodeId = codeId,
+                        Type = EventType.Click,
+                        Payload = payload
+                    });
+                url = ((UrlPayload)code.Payload).TargetingUrl;
+            }
+            else
+            {
+                url = Constants.BaseUrl;
+            }
             var response = Request.CreateResponse(HttpStatusCode.Moved);
-            response.Headers.Location = new Uri(((UrlPayload)code.Payload).TargetingUrl);
+            response.Headers.Location = new Uri(url);
             return response;
         }
 
