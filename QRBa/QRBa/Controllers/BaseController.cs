@@ -28,19 +28,16 @@ namespace QRBa.Controllers
         protected int GetAccountId()
         {
             var cookie = Request.Cookies[Constants.AccountId];
-            Account account = null;
 
             if (cookie != null)
             {
                 int accountId = Convert.ToInt32(cookie.Value);
-                account = DataAccessor.AccountRepository.GetAccount(accountId);
+                var account = DataAccessor.AccountRepository.GetAccount(accountId);
                 if (account != null && accountId == account.Id)
                     return accountId;
             }
 
-            account = DataAccessor.AccountRepository.AddAccount(new Account { ClientInfo = GetClientInfo() });
-            CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), true);
-            return account.Id;
+            return Constants.AnonymousId;
         }
 
         protected string GetClientInfo()
@@ -50,6 +47,11 @@ namespace QRBa.Controllers
                 UserAgent = Request.UserAgent.Truncate(400),
                 UserHostAddress = Request.UserHostAddress
             });
+        }
+
+        protected bool IsAuthenticated()
+        {
+            return (System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
         }
 
         public void Success(string message, bool dismissable = false)
@@ -87,6 +89,5 @@ namespace QRBa.Controllers
 
             TempData[Alert.TempDataKey] = alerts;
         }
-
     }
 }

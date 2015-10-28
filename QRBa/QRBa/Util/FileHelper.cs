@@ -59,6 +59,52 @@ namespace QRBa.Util
             return GetFile(fileName);
         }
 
+        public static void TransferCode(int oldAcctId, int oldCodeId, int newAcctId, int newCodeId, string bgContentType)
+        {
+            var sourceFileName = UrlHelper.Code62Encode(oldAcctId, oldCodeId);
+            var destFileName = UrlHelper.Code62Encode(newAcctId, newCodeId);
+            string folder = HttpContext.Current.Server.MapPath(Constants.PictureFolder);
+            //Background
+            {
+                var ext = GetDefaultExtension(bgContentType);
+                var bgSourceFileName = string.Format("background_{0}{1}", sourceFileName, ext);
+                var bgDestFileName = string.Format("background_{0}{1}", destFileName, ext);
+                string bgSourcePath = Path.Combine(folder, bgSourceFileName);
+                string bgDestPath = Path.Combine(folder, bgDestFileName);
+                if (File.Exists(bgDestPath))
+                {
+                    File.Delete(bgDestPath);
+                }
+                File.Move(bgSourcePath, bgDestPath);
+            }
+            //Code
+            {
+                var ext = GetDefaultExtension(Constants.ContentType);
+                var cdSourceFileName = string.Format("code_{0}{1}", sourceFileName, ext);
+                var cdDestFileName = string.Format("code_{0}{1}", destFileName, ext);
+                string cdSourcePath = Path.Combine(folder, cdSourceFileName);
+                string cdDestPath = Path.Combine(folder, cdDestFileName);
+                if (File.Exists(cdDestPath))
+                {
+                    File.Delete(cdDestPath);
+                }
+                File.Move(cdSourcePath, cdDestPath);
+            }
+            //Thumbnail
+            {
+                var ext = GetDefaultExtension(Constants.ContentType);
+                var tnSourceFileName = string.Format("thumbnail_{0}{1}", sourceFileName, ext);
+                var tnDestFileName = string.Format("thumbnail_{0}{1}", destFileName, ext);
+                string tnSourcePath = Path.Combine(folder, tnSourceFileName);
+                string tnDestPath = Path.Combine(folder, tnDestFileName);
+                if (File.Exists(tnDestPath))
+                {
+                    File.Delete(tnDestPath);
+                }
+                File.Move(tnSourcePath, tnDestPath);
+            }
+        }
+
         private static void SaveFile(string fileName, string contentType, byte[] data)
         {
             if (contentType != null && data != null)

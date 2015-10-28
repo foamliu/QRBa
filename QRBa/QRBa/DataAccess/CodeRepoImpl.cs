@@ -69,6 +69,15 @@ namespace QRBa.DataAccess
             return list;
         }
 
+        public void RemoveCode(int accountId, int codeId)
+        {
+            var result = QueryStoreProcedure("RemoveCode", new Dictionary<string, object>
+                                                          {
+                                                              {"param_accountId", accountId},
+                                                              {"param_codeId", codeId},
+                                                          });
+        }
+
         public Code UpdateCode(Code newCode)
         {
             var result = QueryStoreProcedure("UpdateCode", new Dictionary<string, object>

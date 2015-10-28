@@ -8,12 +8,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace QRBa.Controllers
 {
     public class GeneratorController : BaseController
     {
         // GET: Generator
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
@@ -106,6 +108,11 @@ namespace QRBa.Controllers
                 QrCodeHelper.CreateCode(code);
                 QrCodeHelper.CreateThumbnail(code);
 
+                if (!IsAuthenticated())
+                {
+                    CookieHelper.AddAnonymousCodeId(Request, Response, code.CodeId);
+                }
+
                 return RedirectToAction("Dashboard", "Generator");
             }
             catch (QRBaException ex)
@@ -115,19 +122,38 @@ namespace QRBa.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult Dashboard()
         {
-            int accountId = GetAccountId();
-            var codes = DataAccessor.CodeRepository.GetCodes(accountId);
+            List<Code> codes = null;
+            if (IsAuthenticated())
+            {
+                int accountId = GetAccountId();
+                codes = DataAccessor.CodeRepository.GetCodes(accountId);
+            }
+            else
+            {
+                codes = new List<Code>();
+                var codeIdList = CookieHelper.GetAnonymousCodeIdList(Request);
+                foreach(var codeId in codeIdList)
+                {
+                    var code = DataAccessor.CodeRepository.GetCode(Constants.AnonymousId, codeId);
+                    codes.Add(code);
+                }
+                
+            }
             return View(codes);
         }
 
-        [Authorize]
         [HttpGet]
-        public FileResult Download(int codeId)
+        public ActionResult Download(int codeId)
         {
+            if (!IsAuthenticated())
+            {
+                Danger("要登录才能下载您的透视码。");
+                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Generator/Dashboard" });
+            }
+
             var accountId = Convert.ToInt32(CookieHelper.GetCookie(Request, Constants.AccountId));
             //var code = DataAccessor.CodeRepository.GetCode(accountId, codeId);
             var data = FileHelper.GetCode(accountId, codeId);

@@ -16,5 +16,6 @@ namespace QRBa.Interface
         Code GetCode(int accountId, int codeId);
 
         List<Code> GetCodes(int accountId);
+        void RemoveCode(int accountId, int codeId);
     }
 }

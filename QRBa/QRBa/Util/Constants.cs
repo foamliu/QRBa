@@ -8,9 +8,9 @@ namespace QRBa.Util
 {
     public static class Constants
     {
-        public const long DummyAccountId = -1;
-
+        public const int AnonymousId = 0;
         public const string AccountId = "AccountId";
+        public const string AnonymousCodeIdList = "AnonymousCodeIdList";
         public const string ContentType = "image/jpeg";
         public const long JpegCompressionLevel = 50L;
         public const string PictureFolder = "~/Pictures";

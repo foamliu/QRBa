@@ -332,6 +332,22 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS QRBaDB.RemoveCode;
+DELIMITER //
+CREATE PROCEDURE QRBaDB.RemoveCode
+(
+	param_accountId INT,
+    param_codeId INT
+)
+BEGIN
+
+    DELETE FROM QRBaDB.Code
+    WHERE AccountId = param_accountId
+		AND CodeId = param_codeId;
+
+END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS QRBaDB.AddComment;
 DELIMITER //
 CREATE PROCEDURE AddComment

@@ -53,6 +53,21 @@ namespace QRBa.Controllers
                 var account = DataAccessor.AccountRepository.GetAccountByIdentity(IdentityType.QRBaId, model.MemberName);
                 CookieHelper.SetCookie(Response, Constants.AccountId, account.Id.ToString(), model.RememberMe);
 
+                var codeIdList = CookieHelper.GetAnonymousCodeIdList(Request);
+                foreach (var codeId in codeIdList)
+                {
+                    var code = DataAccessor.CodeRepository.GetCode(Constants.AnonymousId, codeId);
+                    if (code != null)
+                    {
+                        code.AccountId = account.Id;
+                        code.CodeId = 0;
+                        code = DataAccessor.CodeRepository.AddCode(code);
+                        DataAccessor.CodeRepository.RemoveCode(Constants.AnonymousId, codeId);
+                        FileHelper.TransferCode(Constants.AnonymousId, codeId, account.Id, code.CodeId, code.BackgroundContentType);
+                    }
+                }
+                CookieHelper.ClearAnonymousCodeIdList(Response);
+
                 return RedirectToLocal(model.ReturnUrl);
             }
             else
@@ -84,8 +99,8 @@ namespace QRBa.Controllers
                         PasswordHash = CryptoHelper.Hash(model.Password)
                     });
 
-                int accountId = GetAccountId();
-                DataAccessor.AccountRepository.AddAccoutIdentity(accountId, (byte)IdentityType.QRBaId, identity.MemberName);
+                var account = DataAccessor.AccountRepository.AddAccount(new Account { ClientInfo = GetClientInfo() });
+                DataAccessor.AccountRepository.AddAccoutIdentity(account.Id, (byte)IdentityType.QRBaId, identity.MemberName);
 
                 Success("注册成功, 请登录!", true);
                 return View("Login");
