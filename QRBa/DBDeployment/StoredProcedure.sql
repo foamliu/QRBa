@@ -4,10 +4,10 @@ DELIMITER //
 CREATE PROCEDURE QRBaDB.AddAccount
 (
     param_id INT,
-    param_name NVARCHAR(256),
-    param_email VARCHAR(128),
+    param_name NVARCHAR(20),
+    param_email VARCHAR(64),
     param_statusId TINYINT,
-    param_clientInfo VARCHAR(500)
+    param_clientInfo TEXT
 )
 BEGIN
 
@@ -50,10 +50,10 @@ DELIMITER //
 CREATE PROCEDURE QRBaDB.UpdateAccount
 (
     param_id BIGINT,
-    param_name NVARCHAR(256),
-    param_email VARCHAR(128),
+    param_name NVARCHAR(20),
+    param_email VARCHAR(64),
     param_statusId TINYINT,
-    param_clientInfo VARCHAR(500)
+    param_clientInfo TEXT
 )
 BEGIN
 
@@ -222,7 +222,6 @@ BEGIN
     DELETE FROM Account;
     DELETE FROM AccountIdAlloc;
     DELETE FROM AccountIdentity;
-    DELETE FROM Event;
     DELETE FROM Identity;
 
 END //
@@ -236,7 +235,7 @@ CREATE PROCEDURE AddCode
     param_codeTypeId TINYINT,
     param_codeRectangle VARCHAR(32),
     param_backgroundContentType VARCHAR(32),
-    param_payload NVARCHAR(2048)
+    param_payload TEXT
 )
 BEGIN
 
@@ -293,7 +292,7 @@ CREATE PROCEDURE QRBaDB.UpdateCode
     param_codeTypeId TINYINT,
     param_codeRectangle VARCHAR(32),    
     param_backgroundContentType VARCHAR(32),
-    param_payload NVARCHAR(2048)
+    param_payload TEXT
 )
 BEGIN
 

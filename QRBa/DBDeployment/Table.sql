@@ -15,16 +15,16 @@ DROP TABLE IF EXISTS QRBaDB.Account;
 CREATE TABLE QRBaDB.Account
 (
     Id INT NOT NULL PRIMARY KEY,
-    Name NVARCHAR(256) NOT NULL,
-    Email VARCHAR(128) NOT NULL,
+    Name NVARCHAR(20) NOT NULL,
+    Email VARCHAR(64) NOT NULL,
     StatusId TINYINT NOT NULL,
-    ClientInfo VARCHAR(500) NOT NULL,
+    ClientInfo TEXT NOT NULL,
     InsertedDatetime DATETIME NOT NULL,
     InsertedBy NVARCHAR(64) NOT NULL,
     UpdatedDatetime DATETIME NULL,
     UpdatedBy NVARCHAR(64) NULL
 );
-#ALTER TABLE QRBaDB.Account MODIFY COLUMN ClientInfo VARCHAR(500);
+#ALTER TABLE QRBaDB.Account MODIFY COLUMN ClientInfo TEXT;
 
 DROP TABLE IF EXISTS QRBaDB.AccountIdAlloc;
 CREATE TABLE QRBaDB.AccountIdAlloc
@@ -60,7 +60,7 @@ CREATE TABLE QRBaDB.Code
     CodeTypeId TINYINT NOT NULL,
     CodeRectangle VARCHAR(32) NULL,
     BackgroundContentType VARCHAR(32) NULL,
-    Payload NVARCHAR(2048) NULL,
+    Payload TEXT NULL,
     InsertedDatetime DATETIME NOT NULL,
     InsertedBy NVARCHAR(64) NOT NULL,
     UpdatedDatetime DATETIME NULL,
